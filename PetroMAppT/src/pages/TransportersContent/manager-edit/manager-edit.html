@@ -1,0 +1,180 @@
+<!--
+  Generated template for the ManagerAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Update Manager</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-list>
+    <form novalidate [formGroup]="user">
+      <ion-item>
+        <ion-label fixed>Name</ion-label>
+        <ion-input type="text" formControlName="name" class="form-control" [(ngModel)]="manager.name"></ion-input>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('name').hasError('required') ) && user.get('name').touched">
+        <div class="error" *ngIf="user.get('name').hasError('required') && user.get('name').touched">
+          *Name is required.
+        </div>
+      </div>
+
+      <ion-item>
+        <ion-label slack>Gender</ion-label>
+        <ion-select formControlName="gender" class="form-control" [(ngModel)]="manager.gender">
+          <ion-option value="f">Female</ion-option>
+          <ion-option value="m">Male</ion-option>
+          <ion-option value="t">Transgender</ion-option>
+        </ion-select>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('gender').hasError('required') ) && user.get('gender').touched">
+        <div class="error" *ngIf="user.get('gender').hasError('required') && user.get('gender').touched">
+          *Gender is required.
+        </div>
+      </div>
+      <ion-item>
+        <ion-label slack>Country</ion-label>
+        <ion-select formControlName="countryId" class="form-control" [(ngModel)]="manager.countryId" #country
+          (ionChange)="onCountryChange(country.value)" ng-disabled="">
+          <ion-option *ngFor="let country of countries" [value]="country.id" [selected]="country.id == 101">
+            {{country.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('countryId').hasError('required') ) && user.get('countryId').touched">
+        <div class="error" *ngIf="user.get('countryId').hasError('required') && user.get('countryId').touched">
+          *Country is required.
+        </div>
+      </div>
+
+      <ion-item *ngIf="regions">
+        <ion-label slack>Region</ion-label>
+        <ion-select formControlName="regionId" class="form-control" [(ngModel)]="manager.regionId" #region (ionChange)="onRegionChange(region.value)">
+          <ion-option *ngFor="let region of regions" [value]="region.id" [selected]="region.id == 22">
+            {{region.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('regionId').hasError('required') ) && user.get('regionId').touched">
+        <div class="error" *ngIf="user.get('regionId').hasError('required') && user.get('regionId').touched">
+          *State is required.
+        </div>
+      </div>
+
+      <ion-item *ngIf="selectedCities">
+        <ion-label slack>City</ion-label>
+        <ion-select formControlName="cityId" class="form-control" [(ngModel)]="manager.cityId" #city (ionChange)="onCityChange(city.value)">
+          <ion-option *ngFor="let city of selectedCities" [value]="city.id" [selected]="city.id ==2763">
+            {{city.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('cityId').hasError('required') ) && user.get('cityId').touched">
+        <div class="error" *ngIf="user.get('cityId').hasError('required') && user.get('cityId').touched">
+          *City is required.
+        </div>
+      </div>
+
+      <ion-item>
+        <ion-label fixed>Mobile No</ion-label>
+        <ion-input type="text" formControlName="mobileNo" class="form-control" [(ngModel)]="manager.mobileNo"></ion-input>
+      </ion-item>
+      <div no-lines *ngIf="( user.get('mobileNo').hasError('required') || user.get('mobileNo').hasError('minlength') || user.get('mobileNo').hasError('maxlength'))&& user.get('mobileNo').touched">
+        <div class="error" *ngIf="user.get('mobileNo').hasError('required') && user.get('mobileNo').touched">
+          mobile no is required
+        </div>
+        <div class="error" *ngIf="user.get('mobileNo').hasError('minlength') && user.get('mobileNo').touched">
+          Please enter valid mobile number
+        </div>
+        <div class="error" *ngIf="user.get('mobileNo').hasError('maxlength') && user.get('mobileNo').touched">
+          Please enter valid mobile number
+        </div>
+      </div>
+    </form>
+    <!-- 
+    <ion-item>
+      <ion-label fixed>Joining Date</ion-label>
+
+      <ion-datetime displayFormat="DD/MM/YYYY" (ionChange)="getDOJ(manager.DOJ)" [(ngModel)]="manager.DOJ"></ion-datetime>
+
+
+    </ion-item> -->
+    <ion-item>
+      <ion-label stacked>Joining Date</ion-label>
+      <ion-input type="date" displayFormat="DD/MM/YYYY" (ionChange)="getDOJ(manager.DOJ)" [(ngModel)]="manager.DOJ"></ion-input>
+      <!-- <ion-label stacked>Joining Date</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" (ionChange)="getDOJ(manager.DOJ)" [(ngModel)]="manager.DOJ"></ion-datetime> -->
+    </ion-item>
+
+    <!-- 
+    <ion-item>
+      <ion-label fixed>Date of Birth</ion-label>
+
+      <ion-datetime displayFormat="DD/MM/YYYY" min={{ValidDateofBirth}} (ionChange)="DOJ(manager.DOB)" [(ngModel)]="manager.DOB"></ion-datetime>
+
+    </ion-item> -->
+
+    <ion-item>
+      <ion-label stacked>Date of Birth</ion-label>
+      <ion-input type="date" displayFormat="DD/MM/YYYY" max={{ValidDateofBirth}} (change)="DOJ(manager.DOB)"
+        [(ngModel)]="manager.DOB"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Address</ion-label>
+      <ion-input type="text" [(ngModel)]="manager.address"></ion-input>
+    </ion-item>
+
+    <form novalidate [formGroup]="other">
+      <ion-item>
+        <ion-label fixed>PIN/ZIP Code</ion-label>
+        <ion-input type="number" formControlName="pincode" class="form-control" [(ngModel)]="manager.PINCode"></ion-input>
+      </ion-item>
+      <div no-lines *ngIf="(other.get('pincode').hasError('minlength') ||  other.get('pincode').hasError('maxlength')   ) && other.get('pincode').touched">
+        <div class="error" *ngIf="other.get('pincode').hasError('minlength') && other.get('pincode').touched">
+          *Invalid Pincode.
+        </div>
+        <div class="error" *ngIf="other.get('pincode').hasError('maxlength') && other.get('pincode').touched">
+          *Invalid Pincode.
+        </div>
+      </div>
+
+
+      <ion-item>
+        <ion-label fixed>Email</ion-label>
+        <ion-input type="email" formControlName="email" class="form-control" [(ngModel)]="manager.email"></ion-input>
+      </ion-item>
+      <div no-lines *ngIf="(other.get('email').hasError('emailPattern') ) && other.get('email').touched">
+        <div class="error" *ngIf="other.get('email').hasError('emailPattern') && other.get('email').touched">
+          *Invalid Pincode.
+        </div>
+      </div>
+    </form>
+  </ion-list>
+  <ion-list>
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button full color="primary" (click)="editManager()">
+          Update
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

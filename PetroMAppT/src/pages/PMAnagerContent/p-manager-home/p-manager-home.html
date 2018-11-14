@@ -1,0 +1,336 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">{{name}} [{{title}}]</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Requests -->
+  <div *ngIf="activeCS!==0" text-wrap (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
+    <div class="info-box bg-primary">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Requests</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(1) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(1)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col class="oilpurchase" style="margin-left:0px;color: red;">
+              Cash Requests
+            </ion-col>
+            <ion-col class="oilpurchase" style="color:red;" text-right>
+              {{totalCash}}
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="oilpurchase2" style="margin-left:0px;">
+              Pending Requests
+            </ion-col>
+            <ion-col class="oilpurchase2" text-right>
+              {{totalPending}}
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="oilpurchase" style="margin-left:0px;">
+              <b>Total Requests</b>
+            </ion-col>
+            <ion-col class="oilpurchase" text-right>
+              <b>{{totalRequest}}</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Oil Purchased -->
+  <div text-wrap (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
+    <div class="info-box bg-success">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Oil Purchased (Last 7 Days)</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(2) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(2)">
+      <ion-card>
+        <ion-card-content>
+          <ion-row align-items-start>
+            <ion-col class="Regulardash2">
+              <ion-item class="Regulardash2" style="color:red;">
+                <ion-label slack style="padding-left: 10px;color:red;">Select Product</ion-label>
+                <ion-select [(ngModel)]="productId" class="form-control" #reqFuel (ionChange)="ProductSelect(reqFuel.value)">
+                  <ion-option value=0 selected>All</ion-option>
+                  <ion-option *ngFor="let prod of productList;let i = index" [selected]="i===0" [value]="prod.id">
+                    &nbsp;&nbsp; {{prod.name}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row align-items-start>
+            <ion-col class="Regular-sales-dash" style="margin-left:0px;">
+              Date
+            </ion-col>
+            <ion-col class="Regular-sales-dash" text-right>
+              Quantity(KL)
+            </ion-col>
+            <ion-col class="Regular-sales-dash" text-right>
+              Amount(Rs.)
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let oil of pumpSummaryFilter;let index=index; let odd=odd; let even=even;" class="row"
+            [ngClass]="{ Regulardash2: odd, Regulardash3: even}">
+            <ion-col style="margin-left:0px;">
+              {{oil.orderDate | date:"dd-MM-yy"}}
+            </ion-col>
+            <ion-col *ngIf="oil.quantity!==0" text-right>
+              {{oil.quantity |currency : '&nbsp;': true:"1.3"}}
+            </ion-col>
+            <ion-col *ngIf="oil.quantity==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="oil.amount!==0" text-right>
+              {{oil.amount |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="oil.amount==0" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="Regular-sales-dash" style="margin-left:0px;">
+              <b>Total</b>
+            </ion-col>
+            <ion-col *ngIf="pumpSummary.totalQty!==0" class="Regular-sales-dash" text-right>
+              <b>{{pumpSummary.totalQty |currency : '&nbsp;': true:"1.3"}}</b>
+            </ion-col>
+            <ion-col *ngIf="pumpSummary.totalQty==0" class="Regular-sales-dash" text-right>
+              <b>-</b>
+            </ion-col>
+            <ion-col *ngIf="pumpSummary.totalAmt!==0" class="Regular-sales-dash" text-right>
+              <b>{{pumpSummary.totalAmt |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col *ngIf="pumpSummary.totalAmt==0" class="Regular-sales-dash" text-right>
+              <b>-</b>
+            </ion-col>
+          </ion-row>
+
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Current Oil Stock -->
+  <div text-wrap (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
+    <div class="info-box bg-primary">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Current Oil Stock</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(3) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(3)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col class="oilpurchase3">
+              Tank
+            </ion-col>
+            <ion-col class="oilpurchase3">
+              Product
+            </ion-col>
+            <ion-col class="oilpurchase3" text-right>
+              Capacity
+            </ion-col>
+            <ion-col class="oilpurchase3" text-right>
+              Avilable
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="oilpurchase2">
+            <ion-col>
+              <!-- {{oil.name}} -->
+              Tank 1
+            </ion-col>
+            <ion-col>
+              Diesel
+            </ion-col>
+            <ion-col text-right>
+              45
+            </ion-col>
+            <ion-col text-right>
+              <!-- {{oil.currentQty |currency:'&nbsp;'}} -->
+              15
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="oilpurchase">
+            <ion-col>
+              <!-- {{oil.name}} -->
+              Tank 2
+            </ion-col>
+            <ion-col>
+              Petrol
+            </ion-col>
+            <ion-col text-right>
+              20
+            </ion-col>
+            <ion-col text-right>
+              <!-- {{oil.currentQty |currency:'&nbsp;'}} -->
+              10
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="oilpurchase2">
+            <ion-col>
+              <!-- {{oil.name}} -->
+              Tank 3
+            </ion-col>
+            <ion-col>
+              Diesel
+            </ion-col>
+            <ion-col text-right>
+              45
+            </ion-col>
+            <ion-col text-right>
+              <!-- {{oil.currentQty |currency:'&nbsp;'}} -->
+              15
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col col-2 class="oilpurchase3">
+              <b>Total</b>
+            </ion-col>
+
+            <ion-col col-7 class="oilpurchase3" text-right>
+              <!-- <b>{{oilstock.tankQty |currency:'&nbsp;'}}</b> -->
+              <b>110</b>
+            </ion-col>
+            <ion-col col-3 class="oilpurchase3" text-right>
+              <!-- <b>{{oilstock.tankQty |currency:'&nbsp;'}}</b> -->
+              <b>40</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Current DSM at Shift -->
+  <div text-wrap (click)="toggleGroup(4)" [ngClass]="{active: isGroupShown(4)}">
+    <div class="info-box bg-success">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Current DSM at Shift</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(4) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(4)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col col-4 class="Regular-sales-dash" style="margin-left:0px;">
+              DSM Name
+            </ion-col>
+            <ion-col col-8 class="Regular-sales-dash">
+              Machine & Nozzle
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="Regulardash2">
+            <ion-col col-4 style="margin-left:0px;">
+              DSM 1
+            </ion-col>
+            <ion-col col-8>
+              MPD1N1, MPD1N2, MPD1N3, MPD1N4
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="Regulardash3">
+            <ion-col col-4 style="margin-left:0px;">
+              DSM 2
+            </ion-col>
+            <ion-col col-8>
+              MPD2N1, MPD2N2, MPD2N3, MPD2N4
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="Regulardash2">
+            <ion-col col-4 style="margin-left:0px;">
+              DSM 3
+            </ion-col>
+            <ion-col col-8>
+              MPD3N1, MPD3N2
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col col-6 style="padding: 0;">
+      <button ion-button full (click)="addRequest()" class="footer-btn">
+        Cash Dispense
+      </button>
+    </ion-col>
+    <ion-col col-6 style="padding: 0;">
+      <button ion-button color="positive" full (click)="reportRequest()" class="footer-btn">
+        Reports
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

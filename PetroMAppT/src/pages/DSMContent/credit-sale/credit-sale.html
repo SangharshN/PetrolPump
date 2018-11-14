@@ -1,0 +1,242 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Credit Sales</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+
+  <ion-row>
+    <div class="container" style="z-index: 10000;">
+      <ion-row>
+        <ion-col col-8>
+          <input id="country" type="text" text-uppercase style="width: 99%;height:99%;" placeholder="Type Vehicle No."
+            class="validate filter-input input-reg" [(ngModel)]=query (keyup)=filter()>
+        </ion-col>
+        <ion-col col-4>
+          <button ion-button full (click)="getBlanket(query)">Blsnket</button>
+        </ion-col>
+      </ion-row>
+      <div class="" *ngIf="pumpList.length > 0">
+        <ul *ngFor="let item of pumpListFilter">
+          <li *ngIf="query.length > 2">
+            <a (click)="select(item)">{{item}}</a>
+          </li>
+        </ul>
+      </div>
+      <div style="color:red;" *ngIf="showEmpty">
+        Sorry No Vehicles founds!!!
+      </div>
+    </div>
+  </ion-row>
+
+  <ion-card *ngIf="transporter" style="margin: 6px 5px !important;">
+    <ion-card-header text-center text-capitalize class="header-trans">
+      {{DSMList.transporterName}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;">
+            Req. Date
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+            {{DSMList.created_at|date:'dd MMM yyyy'}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;">
+            OTP
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+            {{DSMList.otp}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;">
+            Reg No
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col text-uppercase style="padding: 1px 0px;">
+            {{DSMList.regNo}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;color:red;">
+            {{Blanket}}
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf=unitName style="color:red;">
+          <ion-col style="padding: 1px 0px;">
+            Fuel Req
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col text-uppercase style="padding: 1px 0px;">
+            {{DSMList.fuelRequested}} {{DSMList.unitName}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;">
+            Fuel Req Type
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+            {{DSMList.productName}}
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf=unit>
+          <ion-col style="padding: 1px 0px;">
+            Fuel Req Amount
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+              ₹ {{DSMList.fuelRequested |currency : '&nbsp;'}}/-
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf=unit style="color:red;">
+          <ion-col style="padding: 1px 0px;">
+            Fuel Req Liter
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+            {{this.crequest.fuelRequested}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="padding: 1px 0px;">
+            Cash Req
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col style="padding: 1px 0px;">
+              ₹ {{DSMList.cashRequested |currency : '&nbsp;'}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="transporterdriver">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <ion-label slack>Select Driver</ion-label>
+            <ion-select [(ngModel)]="tdriver" #reqDriver (ionChange)="onChange2(reqDriver.value)">
+              <ion-option *ngFor="let tdriver of tdriverList;let i = index" [value]="tdriver">
+                {{tdriver.name}}
+              </ion-option>
+            </ion-select>
+          </ion-col>
+          <ion-col col-12>
+            <button ion-button full (click)="sendOtp()">Send Otp</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="transporter">
+    <ion-card-content>
+      <ion-grid>
+        <form novalidate [formGroup]="user">
+          <ion-row style="color:red;">
+            <ion-col col-6>
+              Select Nozzle
+            </ion-col>
+            <ion-col col-6>
+              <ion-select [(ngModel)]="noozle" #reqFuel formControlName="nozzle" class="form-control" (ionChange)="onChange3(reqFuel.value)">
+                <ion-option *ngFor="let prod1 of nozzleListFilter;let i = index" [value]="prod1" [selected]="i===0">
+                  {{prod1.machineName}}[{{prod1.name}}]
+                </ion-option>
+              </ion-select>
+              <ion-item no-lines *ngIf="( user.get('nozzle').hasError('minlength') || user.get('nozzle').hasError('required') ) && user.get('nozzle').touched">
+                <div class="error" *ngIf="user.get('nozzle').hasError('required') && user.get('nozzle').touched">
+                  *NozzleId is required.
+                </div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Fuel Actual in Liters:
+            </ion-col>
+            <ion-col col-6>
+              <ion-item>
+                <ion-input type="number" formControlName="fuelActual" class="form-control" [(ngModel)]="crequest.fuelActual"></ion-input>
+              </ion-item>
+              <ion-item no-lines *ngIf="( user.get('fuelActual').hasError('minlength') || user.get('fuelActual').hasError('required') ) && user.get('fuelActual').touched">
+                <div class="error" *ngIf="user.get('fuelActual').hasError('required') && user.get('fuelActual').touched">
+                  *Fuel is required.
+                </div>
+              </ion-item>
+              <!-- <ion-input type="text" [(ngModel)]="crequest.fuelActual"></ion-input> -->
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6>
+              Invoice No.:
+            </ion-col>
+            <ion-col col-6>
+              <ion-item>
+                <ion-input type="number" formControlName="invoiceNo" class="form-control" [(ngModel)]="crequest.invoiceNo"></ion-input>
+              </ion-item>
+              <ion-item no-lines *ngIf="( user.get('invoiceNo').hasError('minlength') || user.get('invoiceNo').hasError('required') ) && user.get('invoiceNo').touched">
+                <div class="error" *ngIf="user.get('invoiceNo').hasError('required') && user.get('invoiceNo').touched">
+                  *Invoice number is required.
+                </div>
+              </ion-item>
+              <!-- <ion-input type="text" [(ngModel)]="crequest.invoiceNo"></ion-input> -->
+            </ion-col>
+          </ion-row>
+        </form>
+        <button ion-button (click)="takePhoto()" full color="primary">Take Photo</button>
+
+        <div text-center>
+          <img src="{{myphoto}}">
+        </div>
+
+
+        <button ion-button (click)="uploadImage()" full color="dark">Upload Image</button>
+
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <div *ngIf="transporter">
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button full color="primary" (click)="addRequest()">
+          Submit
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

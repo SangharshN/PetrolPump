@@ -1,0 +1,106 @@
+<ion-menu side="right" id="authenticated" [content]="content">
+  <ion-header>
+    <ion-toolbar class="user-profile">
+
+      <ion-grid>
+        <ion-row >
+          <ion-col col-4>
+            <div *ngIf="userPhoto!==undefined && userPhoto!==null"class="user-avatar">
+                <img style="width:100%;height:auto;" src="{{imgLink}}">
+            </div>
+            <div *ngIf="userPhoto==null"class="user-avatar">
+                <img style="width:100%;height:auto;" src="assets/imgs/userPhoto.png">
+            </div>
+          </ion-col>
+          <ion-col padding-top col-8>
+            <h2 ion-text text-capitalize class="no-margin bold text-white" style="color:#ffffff;margin-bottom: 0rem;margin-top: 0px;">
+              {{name}}
+            </h2>
+        
+
+            <span ion-text color="light" *ngIf="userType==11">Pump Owner</span>
+            <span ion-text color="light" *ngIf="userType==12">Manager at Pump</span>
+            <span ion-text color="light" *ngIf="userType==13">DSM at Pump</span>
+            <span ion-text color="light" *ngIf="userType==21">Transporter Owner</span>
+            <span ion-text color="light" *ngIf="userType==22">Transporter Manager</span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row no-padding class="other-data">
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" (click)="editProfile()" menuClose>
+              <ion-icon name="contact"></ion-icon>
+              Edit Profile
+            </button>
+          </ion-col>
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" menuClose (click)="logout()">
+              <ion-icon name="log-out"></ion-icon>
+              Log Out
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content color="primary">
+    <ion-list>
+      <div *ngIf="userType==11 && activeCS==1">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems11" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+      <div *ngIf="userType==11 && activeCS==0">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems111" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+    </ion-list>
+
+    <ion-list>
+      <div *ngIf="userType==12">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems12" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+    </ion-list>
+
+    <ion-list>
+      <div *ngIf="userType==13">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems13" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+    </ion-list>
+
+    <ion-list>
+      <div *ngIf="userType==21">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems21" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+    </ion-list>
+
+    <ion-list>
+      <div *ngIf="userType==22">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems22" (click)="openPage(menuItem)">
+          <ion-icon item-left style="margin-left:10px;" [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}} <ion-badge style="background-color:#07388e;" *ngIf="menuItem.badgeCount!==''">{{menuItem.badgeCount}}</ion-badge></span>
+        </button>
+      </div>
+    </ion-list>
+
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

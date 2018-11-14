@@ -1,0 +1,62 @@
+<!--
+  Generated template for the RegularCashPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+      <ion-row>
+          <ion-col col-1>
+              <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+            </ion-col>
+        <ion-col col-10>
+          <ion-title class="centerali">Nozzle Totalizer</ion-title>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button float-right menuToggle icon-only style="display: block !important;"  >
+            <ion-icon name='menu'></ion-icon>
+          </button>
+        </ion-col>
+        </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <div *ngIf=show>
+  <ion-card *ngFor="let nozzle of NoozleList; let i = index;" style="margin: 6px 5px !important;">
+    <ion-card-header text-center class="header-trans">
+    {{nozzle.machineName}}[{{nozzle.name}}]
+    </ion-card-header>
+    <ion-card-content>
+      
+        <ion-row>
+          <ion-col col-6 style="padding: 1px 0px;">
+            Start Reading:
+          </ion-col>
+          <ion-col col-6 style="padding: 1px 10px;" text-right>
+            {{nozzle.startReading}}
+          </ion-col>
+        </ion-row>
+        <ion-row style="padding-bottom: 5px;color: red;">
+          <ion-col col-6 style="padding: 1px 0px;">
+            End Reading:
+          </ion-col>
+          <ion-col col-6 style="padding: 1px 0px;">
+            <ion-input class="text-space" style="border-bottom:1px solid;" placholder="End Reading" type="number" [(ngModel)]="NoozleList[i].endReading"></ion-input>
+          </ion-col>
+        </ion-row>
+      
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-row>
+    <button ion-button full color="primary" (click)="addTotalReading()">
+      Submit
+    </button>
+  </ion-row>
+</div>
+  <div *ngIf="hide" style="color:red" text-center>
+      {{error}}
+    </div>
+</ion-content>

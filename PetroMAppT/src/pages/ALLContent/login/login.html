@@ -1,0 +1,68 @@
+<ion-header>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false" class="bgimg">
+  <div class="limiter space-top">
+    <div class="container-login100">
+      <div class="wrap-login100 p-t-85 p-b-20">
+        <form novalidate [formGroup]="user">
+          <span class="login100-form-avatar">
+            <img src="assets/imgs/PetroMAP.png" alt="PetroMapp">
+          </span>
+          <div class="wrap-input100 validate-input m-b-50" data-validate="Enter username">
+            <ion-row style="display: -webkit-box;">
+              <ion-icon name="person" class="icons-pass"></ion-icon>
+              <input class="input100" type="text" placeholder="Username" [(ngModel)]="username" formControlName="username"
+                style="padding-left: 13px;" required>
+            </ion-row>
+          </div>
+          <div *ngIf="(user.get('username').hasError('required') ) && user.get('username').touched">
+            <div class="error" *ngIf="user.get('username').hasError('required') && user.get('username').touched">
+              Username is required
+            </div>
+
+          </div>
+          <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+            <ion-row>
+              <ion-icon name="key" class="icons-pass"></ion-icon>
+              <ion-input class="input100" [type]="password_type" clearOnEdit="false" placeholder="Password" [(ngModel)]="password"
+                formControlName="password" required></ion-input>
+              <ion-icon name="eye" class="icons-pass" style="float: right;" icon-right (click)="togglePasswordMode()"></ion-icon>
+            </ion-row>
+          </div>
+          <div no-lines *ngIf="(user.get('password').hasError('required') ) && user.get('password').touched">
+            <div class="error" *ngIf="user.get('password').hasError('required') && user.get('password').touched">
+              Password is required
+            </div>
+          </div>
+        </form>
+        <ion-row style="padding:5px 0px;">
+          
+          <ion-checkbox [(ngModel)]="rememberMe" (ionChange)="set()"></ion-checkbox>
+          <div style="color:#ffffff; padding-left: 10px;">Remember Me</div>
+        </ion-row>
+        <div class="container-login100-form-btn">
+          <button class="login100-form-btn" (click)="login(user)">
+            Login
+          </button>
+        </div>
+
+      </div>
+      <div class="login-more p-t-190 text-center">
+        <span class="m-b-8">
+
+          <p class="txt2" tappable (click)="forgotPass()">
+            Forgot Password?
+          </p>
+        </span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<style type="text/css">
+  .error {
+    color: red;
+  }
+
+</style>

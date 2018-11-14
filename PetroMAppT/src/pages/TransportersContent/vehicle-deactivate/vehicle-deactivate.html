@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row style="border: 0px;">
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Vehicle Details</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-row>
+    <ion-col>
+      Reg No
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col text-uppercase>
+      {{vehicle.regNo}}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      Registration Year
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col>
+      {{vehicle.regYear}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      Vehicle Type
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col text-capitalize>
+      {{vehicle.vehicleName}}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      Fuel Type
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col text-capitalize>
+      {{vehicle.fuelName}}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      Fuel Capacity
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col>
+      {{vehicle.capacity}} {{vehicle.unitName}}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      Blanket
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col>
+      {{vehicle.blanket?' Blanket':"Non Blanket"}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf=view>
+    <ion-col>
+      Blanket Cash
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col>
+      {{vehicle.blanketCash}}
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf=view>
+    <ion-col>
+      Blanket Fuel
+    </ion-col>
+    <ion-col col-1>
+      :
+    </ion-col>
+    <ion-col>
+      {{vehicle.blanketFuel}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="border: 0px;">
+    <ion-col col-6 *ngIf=deactivate>
+      <button ion-button full color="danger" (click)="deactVehicle(vehicle.id)">
+        Deactivate
+      </button>
+    </ion-col>
+    <ion-col col-12 *ngIf=activate>
+      <button ion-button full color="success" (click)="actVehicle(vehicle.id)">
+        Activate
+      </button>
+    </ion-col>
+    <ion-col col-6>
+      <div *ngIf=deactivate>
+        <button ion-button full color="prmary" (click)="editPage(vehicle.id)">
+          Edit
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

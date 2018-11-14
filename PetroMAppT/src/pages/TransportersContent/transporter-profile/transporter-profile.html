@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Update Profile</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-list>
+    <ion-item>
+      <ion-label slack>Country</ion-label>
+      <ion-select [(ngModel)]="tprofile.countryId" #country (ionChange)="onCountryChange(country.value)" ng-disabled="">
+        <ion-option *ngFor="let country of countries" [value]="country.id" [selected]="country.id == 101">
+          {{country.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item *ngIf="regions">
+      <ion-label slack>Region</ion-label>
+      <ion-select [(ngModel)]="tprofile.regionId" #region (ionChange)="onRegionChange(region.value)">
+        <ion-option *ngFor="let region of regions" [value]="region.id" [selected]="region.id == 22">
+          {{region.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="selectedCities">
+      <ion-label slack>City</ion-label>
+      <ion-select [(ngModel)]="tprofile.cityId" #city (ionChange)="onCityChange(city.value)">
+        <ion-option *ngFor="let city of selectedCities" [value]="city.id" [selected]="city.id ==2763">
+          {{city.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <form novalidate [formGroup]="other">
+      <ion-item>
+        <ion-label stacked>PIN/ZIP Code</ion-label>
+        <ion-input type="number" formControlName="pincode" class="form-control" [(ngModel)]="tprofile.PINCode"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="( other.get('pincode').hasError('minlength') ||  other.get('pincode').hasError('maxlength')   ) && other.get('pincode').touched">
+        <div class="error" *ngIf="other.get('pincode').hasError('minlength') && other.get('pincode').touched">
+          *Invalid Pincode.
+        </div>
+        <div class="error" *ngIf="other.get('pincode').hasError('maxlength') && other.get('pincode').touched">
+          *Invalid Pincode.
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label stacked>Email</ion-label>
+        <ion-input type="email" formControlName="email" class="form-control" [(ngModel)]="tprofile.email"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="( other.get('email').hasError('emailPattern') ) && other.get('email').touched">
+        <div class="error" *ngIf="other.get('email').hasError('emailPattern') && other.get('email').touched">
+          *Please enter valid mail
+        </div>
+      </ion-item>
+    </form>
+    <ion-item>
+      <ion-label stacked>Address</ion-label>
+      <ion-input type="text" [(ngModel)]="tprofile.address"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Name of Bank</ion-label>
+      <ion-input type="text" [(ngModel)]="tprofile.bankName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Account No.</ion-label>
+      <ion-input type="number" [(ngModel)]="tprofile.accountNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>IFSC Code</ion-label>
+      <ion-input type="text" [(ngModel)]="tprofile.IFSCCode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Branch Address</ion-label>
+      <ion-input type="text" [(ngModel)]="tprofile.branchAddress"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button full color="primary" (click)="editTProfile()">
+          Update
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

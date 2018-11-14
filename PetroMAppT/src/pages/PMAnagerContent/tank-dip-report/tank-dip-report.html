@@ -1,0 +1,197 @@
+<!--
+  Generated template for the TankDipReportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Tank Dip</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item style="color:red;">
+    <ion-label style="color:red;">Select Tank</ion-label>
+    <ion-select [(ngModel)]="productId" class="form-control" #reqFuel (ionChange)="ProductSelect(reqFuel.value)">
+      <ion-option value="0" selected>All</ion-option>
+      <ion-option *ngFor="let prod of productList;let i = index" [value]="prod.id">
+        &nbsp;&nbsp; {{prod.name}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item style="color:red;">
+    <ion-label style="color:red;">Select Range</ion-label>
+    <ion-select (ionChange)="onChange(dateOption)" class="form-control" [(ngModel)]="dateOption">
+      <ion-option value="1">Today</ion-option>
+      <ion-option value="2">Yesterday</ion-option>
+      <ion-option value="3">Last 3 Days</ion-option>
+      <ion-option value="4" selected>Last 7 Days</ion-option>
+      <ion-option value="5">Last 15 Days</ion-option>
+      <ion-option value="6">This Month</ion-option>
+      <ion-option value="7">Last Month</ion-option>
+      <ion-option value="8">Custom Date range</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-row class="date-row contenttable" style="margin-bottom:5px;" text-center>
+
+    <ion-col col-6 style="padding:5px 0px;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">From:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{startDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+    <ion-col col-6 style="padding:5px 0px;;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">To:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{endDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+  </ion-row>
+
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select Start Date</ion-label>
+    <ion-input type="date" max={{currentDate}} displayFormat="DD-MM-YYYY" (ngModelChange)="dateChanged(item)"
+      [(ngModel)]="sDate"></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select End Date</ion-label>
+    <ion-input type="date" min={{sDate}} max={{currentDate}} [(ngModel)]="eDate" displayFormat="DD-MM-YYYY"
+      (ngModelChange)="dateChanged(item)"></ion-input>
+  </ion-item>
+
+  <ion-card>
+    <ion-item text-center style="color:#636363;">
+      <h5><b>Tank Name</b></h5>
+      <h6>Product : High Speed Diesel</h6>
+      <h6>Capacity : 45 KL</h6>
+    </ion-item>
+  </ion-card>
+
+  <ion-row align-items-start>
+    <ion-col class="tab-bg-assertive">
+      Date
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      Dip(cm)
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      Quantity(KL)
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable2">
+      23-10-18
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      150
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      20
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable">
+      22-10-18
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      200
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      30
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable2">
+      21-10-18
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      222
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      31
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable">
+      20-10-18
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      121
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      31
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable2">
+      19-10-18
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      113
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      25
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable">
+      18-10-18
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      225
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      32
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable2">
+      17-10-18
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      345
+    </ion-col>
+    <ion-col class="contenttable2" text-right>
+      40
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="contenttable">
+      16-10-18
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      525
+    </ion-col>
+    <ion-col class="contenttable" text-right>
+      41
+    </ion-col>
+  </ion-row>
+
+</ion-content>

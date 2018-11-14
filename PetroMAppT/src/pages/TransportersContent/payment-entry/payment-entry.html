@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Payment Entry</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+
+  <ion-segment [(ngModel)]="categories">
+    <ion-segment-button value="paymentCash">
+      Payment Against Cash <ion-badge item-end>{{pumpCashList.length}}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button value="paymentFuel">
+      Payment Against Fuel <ion-badge item-end>{{pumpFuelList.length}}</ion-badge>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div [ngSwitch]="categories">
+
+    <ion-list *ngSwitchCase="'paymentFuel'">
+      <ion-item *ngFor="let pumps of pumpFuelList;" (click)="PaymentDetailPage(pumps.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/pump.png">
+        </ion-avatar>
+        <h5 text-capitalize>{{pumps.pumpName}} (Cash)</h5>
+        <h6>Bill Amount(Rs) : {{pumps.billAmount |currency : '&nbsp;': true:"1.0"}}</h6>
+        <ion-note item-end>{{pumps.billDate |date:"dd MMM yyyy"}} </ion-note>
+      </ion-item>
+      <div *ngIf="pumpFuelList.length==0">
+        "Sorry No Fuel Payment Entry record found"
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'paymentCash'">
+      <ion-item *ngFor="let pumps of pumpCashList;" (click)="PaymentDetailPage(pumps.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/pump.png">
+        </ion-avatar>
+        <h5 text-capitalize>{{pumps.pumpName}} (Cash)</h5>
+        <h6>Bill Amount(Rs) : {{pumps.billAmount |currency : '&nbsp;': true:"1.0"}}</h6>
+        <ion-note item-end>{{pumps.billDate |date:"dd MMM yyyy"}} </ion-note>
+      </ion-item>
+      <div *ngIf="pumpCashList.length==0">
+        "Sorry No Cash Payment Entry record found"
+      </div>
+    </ion-list>
+
+  </div>
+</ion-content>
+<!-- 
+
+      <div *ngIf="selectp">
+
+        <ion-card>
+
+          <ion-card-header>
+            Last Outstanding Bill
+          </ion-card-header>
+
+          <ion-card-content>
+
+
+            <ion-row class="bottomBor-paymentEntry">
+              <ion-col col-6>
+                Bill No:
+              </ion-col>
+              <ion-col col-6>
+                {{creditBills.billNo}}
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="bottomBor-paymentEntry">
+              <ion-col col-6>
+                Date:
+              </ion-col>
+              <ion-col col-6>
+                {{creditBills.billDate |date:'dd-MM-yy'}}
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="bottomBor-paymentEntry">
+              <ion-col col-6>
+                Credit Against Fuel:
+              </ion-col>
+              <ion-col col-6>
+                {{creditBills.billAmount}}
+              </ion-col>
+            </ion-row>
+
+          </ion-card-content>
+
+        </ion-card>
+
+        <ion-row style="padding-top: 10px;">
+          <ion-col col-6>
+            Enter Amount
+          </ion-col>
+          <ion-col col-6>
+            <ion-input type="number" class="bottomBor-paymentEntry" [(ngModel)]="amount"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row style="padding-top: 10px;">
+          <ion-col col-6>
+            Select Payent Mode
+          </ion-col>
+
+          <ion-col col-6>
+            <ion-select [(ngModel)]="payModeId" #reqFuel1 (ionChange)="selectPaymodeList(reqFuel1.value)">
+              <ion-option *ngFor="let prod of paymodeList;let i = index" [value]="prod.id" [selected]="i===0">
+                {{prod.name}}
+              </ion-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+      </div> -->
+
+
+<!-- <ion-footer>
+  <ion-row>
+    <ion-col col-12 style="padding: 0;">
+      <button style="margin-bottom: 0px;" ion-button full (click)="billPayment()">Pay Bill</button>
+    </ion-col>
+  </ion-row>
+</ion-footer> -->

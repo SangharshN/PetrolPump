@@ -1,0 +1,35 @@
+page-payment-request {
+    .list-md {
+        margin: 0px;
+    }
+    .label-md {
+        margin: 0px;
+        padding: 8px;
+    }
+    .text-input {
+        padding: 0px 5px !important;
+        text-align: left;
+        margin: 0px 0px;
+    }
+    [col-1] {
+        padding-left: 0px;
+    }
+    .icon-class {
+        font-size: 30px;
+        padding: 10px 0px 10px 0px;
+        color: white;
+    }
+    .input-message {
+        background-color: white;
+        border-radius: 12px
+    }
+    .scroll-content {
+        padding: 16px 10px 16px 10px !important;
+        margin-top: 48px;
+    }
+    .select-md .select-icon {
+        // margin-top: 15px;
+        margin-left: 7px;
+    }
+    .select {padding: 8px;}
+}

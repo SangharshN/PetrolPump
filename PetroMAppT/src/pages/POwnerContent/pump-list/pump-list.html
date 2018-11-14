@@ -1,0 +1,65 @@
+<!--
+  Generated template for the TdriverListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">My Pump List</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="container" style="z-index: 10000;">
+    <ion-row>
+      <ion-col col-12>
+        <input id="country" type="text" style="width: 53%;height:100%;" placeholder="Select State" class="validate filter-input input-reg"
+          [(ngModel)]=query (keyup)=filter()>
+      </ion-col>
+    </ion-row>
+    <div class="" *ngIf="stateName.length > 0">
+      <ul *ngFor="let item of stateNameList">
+        <li *ngIf="query.length > 2">
+          <a (click)="select(item)">{{item}}</a>
+        </li>
+      </ul>
+    </div>
+    <div style="color:red;" *ngIf="showEmpty">
+      Sorry No State founds!!!
+    </div>
+  </div>
+
+  <ion-list>
+
+    <ion-item *ngFor="let pumps of pumpList">
+      <ion-avatar item-start>
+        <img src="assets/imgs/pump.png">
+      </ion-avatar>
+      <h5 text-capitalize>{{pumps.name}}</h5>
+      <h6>Limit(Lac) : {{pumps.creditLimitAllotted |currency:"&nbsp;" }}</h6>
+      <h6 style="color:#4c6df9;">Used(Lac) : {{pumps.creditUsed |currency:"&nbsp;" }}</h6>
+      <h6 style="color:red;">Balance(Lac) : {{pumps.creditLimitBalance |currency:"&nbsp;" }}</h6>
+      <ion-note text-capitalize item-end text-right>{{pumps.regionName}}<br> <b>DOJ : {{pumps.created_at
+          |date:"dd MMM yyyy"}}</b></ion-note>
+
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

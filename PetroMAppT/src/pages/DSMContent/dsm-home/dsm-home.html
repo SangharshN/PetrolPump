@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">{{name}} [DSM]</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-row >
+    <ion-col [className]="my_Class" *ngFor="let detail of dsmReportList; let index=index; let odd=odd; let even=even;" class="row"
+  style="padding: 5px 2px 5px 0px;">
+      <ion-card style="margin: 0px 0px !important;width: 99%">
+        <div class="padi" [ngClass]="{ cardgreen: odd, cardred: even}" text-center style="align-items:center;">
+          <img src="assets/imgs/nozzle.png" style="max-width:30%;display: unset;">
+          <ion-label style="margin: 5px 0px 5px 0px;">{{detail.productName}}</ion-label>
+          <ion-label style="margin: 5px 0px 5px 0px;">Rate : ₹ {{detail.currentRate}}/-</ion-label>
+          <ion-label style="margin: 5px 0px 5px 0px;"><b>Fuel Sold : {{detail.Qty}} Ltr.</b></ion-label>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="credithide">
+    <button ion-button full color="danger" (click)="CreditSale()">Credit Sales - ₹ {{detailSales.creditSold |currency : '&nbsp;' : true:"1.0"}}/-</button>
+  </div>
+
+  <div *ngIf="loaylityhide">
+    <button ion-button full color="success" (click)="cashSale()">Loyalty Sales - ₹ {{detailSales.loyaltySold |currency : '&nbsp;' : true:"1.0"}}/-</button>
+  </div>
+
+  <button ion-button full color="calm" (click)="noozleTotal()">Nozzle Totalizer</button>
+
+  <button ion-button full color="primary" (click)="regularSale()">Regular Sales - ₹ {{detailSales.regularSold |currency : '&nbsp;' : true:"1.0"}}/-</button>
+
+  <ion-row *ngIf="cashSubmitted" style="padding-left: 5px;color: red;">
+    <ion-col text-center>
+      <ion-label>Cash to be Submitted : ₹{{cashtoSubmitted  |currency : '&nbsp;' : true:"1.0"}}/-</ion-label>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+
+<ion-footer>
+  <button ion-button full color="night" style="margin: 0px 0px !important;padding: 0px 0px!important;" (click)="logOut()">Log
+    out</button>
+</ion-footer>

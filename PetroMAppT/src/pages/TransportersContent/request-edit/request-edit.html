@@ -1,0 +1,140 @@
+<!--
+  Generated template for the RequestCancelPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row style="border: 0px;">
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Request Edit</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-header text-center>
+      Request Details
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-row>
+          <ion-col col-6>
+            Request Date:
+          </ion-col>
+          <ion-col col-6>
+            {{fuelRequested.created_at |date}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            Request Time:
+          </ion-col>
+          <ion-col col-6>
+            {{fuelRequested.created_at | date:"HH:mm:ss"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            OTP:
+          </ion-col>
+          <ion-col col-6>
+            {{fuelRequested.otp}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            Reg No:
+          </ion-col>
+          <ion-col col-6 text-uppercase>
+            {{fuelRequested.regNo}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            Driver:
+          </ion-col>
+          <ion-col col-6>
+            {{fuelRequested.tDriverName}}
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-card-header text-center>
+          Edit Details
+        </ion-card-header>
+        <form novalidate [formGroup]="user">
+
+          <ion-item>
+            <ion-label slack>Select Fuel Request Type</ion-label>
+            <ion-select formControlName="requestType" [(ngModel)]="fuelRequested.requestType" class="form-control"
+              (ionChange)="requestType(fuelRequested.requestType)">
+              <ion-option value=1> Full Tank</ion-option>
+              <ion-option value=2 selected>By Amount.</ion-option>
+              <ion-option value=3>By Quantity</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item no-lines *ngIf="( user.get('requestType').hasError('minlength') || user.get('requestType').hasError('required') ) && user.get('requestType').touched">
+            <div class="error" *ngIf="user.get('requestType').hasError('required') && user.get('requestType').touched">
+              *Select Fuel type required
+            </div>
+          </ion-item>
+
+          <ion-item *ngIf="fuelRequested.requestType==3">
+            <ion-label inline>Fuel Qty.</ion-label>
+            <ion-input type="number" class="form-control" formControlName="fuelRequested" [(ngModel)]="fuelRequested.fuelRequested"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="fuelRequested.requestType==2">
+            <ion-label inline>Fuel Amt (Rs)</ion-label>
+            <ion-input type="number" class="form-control" formControlName="fuelRequested" [(ngModel)]="fuelRequested.fuelRequested"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="fuelRequested.requestType==1">
+            <ion-label inline>Fuel Capacity</ion-label>
+            <ion-input type="text" class="form-control" readonly formControlName="fuelRequested" [(ngModel)]="capacity"></ion-input>
+          </ion-item>
+          <ion-item no-lines *ngIf="( user.get('fuelRequested').hasError('fuelRequested') || user.get('fuelRequested').hasError('required') ) && user.get('fuelRequested').touched">
+            <div class="error" *ngIf="user.get('fuelRequested').hasError('required') && user.get('fuelRequested').touched">
+              *Fuel is required.
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label inline>Cash Rs.</ion-label>
+            <ion-input type="number" class="form-control" [(ngModel)]="fuelRequested.cashRequested" formControlName="cashRequested"></ion-input>
+          </ion-item>
+          <ion-item no-lines *ngIf="( user.get('cashRequested').hasError('minlength') || user.get('cashRequested').hasError('required') ) && user.get('cashRequested').touched">
+            <div class="error" *ngIf="user.get('cashRequested').hasError('required') && user.get('cashRequested').touched">
+              *Cash is required.
+            </div>
+          </ion-item>
+        </form>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row style="border: 0px;">
+    <ion-col col-12>
+      <button ion-button full color="primary" (click)="editRequest(fuelRequested.id)">
+        Update Request
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-content>

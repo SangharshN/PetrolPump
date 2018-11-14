@@ -1,0 +1,75 @@
+<!--
+  Generated template for the TdriverListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+      <ion-col col-11>
+        <ion-title class="centerali">My Drivers List</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="categories">
+    <ion-segment-button value="active">
+      Active List <ion-badge item-end>{{active}}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button value="deactive">
+      Deactive List <ion-badge item-end>{{deactive}}</ion-badge>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div [ngSwitch]="categories">
+
+    <ion-list *ngSwitchCase="'active'">
+      <div *ngIf=hide>
+        <ion-item *ngFor="let tdriver of tdriverList" (click)="viewDriver(tdriver.id)">
+          <ion-avatar item-start>
+            <img src="assets/imgs/driver.png">
+          </ion-avatar>
+          <h5 text-uppercase>{{tdriver.name}}</h5>
+          <h6 text-capitalize>{{tdriver.mobileNo}}</h6>
+        </ion-item>
+      </div>
+
+      <div *ngIf=show text-center>
+        Sorry No current Drivers are activated.
+      </div>
+    </ion-list>
+    <ion-list *ngSwitchCase="'deactive'">
+      <div *ngIf=view>
+        <ion-item *ngFor="let tdriver of tdriverDeact" (click)="viewDriver(tdriver.id)">
+          <ion-avatar item-start>
+            <img src="assets/imgs/driver.png">
+          </ion-avatar>
+          <h5 text-uppercase>{{tdriver.name}}</h5>
+          <h6 text-capitalize>{{tdriver.mobileNo}}</h6>
+        </ion-item>
+      </div>
+
+      <div *ngIf=nonview text-center>
+        Sorry No current Drivers are deactivated.
+      </div>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col col-12 style="padding: 0;">
+      <button ion-button full (click)="addDriver()" style="margin-top: 0;margin-bottom: 0;height: 4.5rem;">
+        Add Driver
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

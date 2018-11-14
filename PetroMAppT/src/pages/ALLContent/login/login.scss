@@ -1,0 +1,13 @@
+page-login {
+    input {
+        outline: none;
+        border: none;
+    }
+    .text-input {
+        margin: 10px !important;
+        text-align: left !important;
+    }
+    ::placeholder {
+        font-size: 18px;
+    }
+}

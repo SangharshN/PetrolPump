@@ -1,0 +1,26 @@
+page-credit-sale {
+    [col-6] {
+        padding: 8px 0px;
+        font-size: 16px;
+    }
+    [col-8] {
+        padding: 9px 0px !important;
+    }
+    .text-input {
+        border-bottom-width: 1px;
+        border-style: solid;
+        border-color: initial;
+        border-image: initial;
+        background: transparent;
+    }
+    ul, menu, dir {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 0px;
+        list-style-type: none;
+    }
+}

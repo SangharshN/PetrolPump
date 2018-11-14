@@ -1,0 +1,24 @@
+page-defaulter-transporters-report {
+    .item {
+        border-bottom: 1px solid #dedede;
+        padding-left: 0px;
+    }
+    .col {
+        padding-left: 0px;
+        padding-bottom: 2px;
+    }
+    .label {
+        margin: 4px 8px 6px 0;
+    }
+    .list {
+        margin: 1px 0 1px;
+    }
+    h5 {
+        color: red;
+    }
+    ul,
+    menu,
+    dir {
+        padding-inline-start: 0px;
+    }
+}

@@ -1,0 +1,244 @@
+<!--
+  Generated template for the PaymentReceivedTransporterWiseReportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Payment Received Transporter Wise</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+
+  <div class="container" style="z-index: 10000;">
+    <ion-row>
+      <ion-col col-12 style="padding-left:0px;">
+        <input type="text" style="width: 53%;height:100%;" placeholder="Transporter Name" class="validate filter-input input-reg"
+          [(ngModel)]=query (keyup)=filter()>
+      </ion-col>
+    </ion-row>
+
+    <div class="" *ngIf="transporterList.length > 0">
+      <ul *ngFor="let item of transporterNameList">
+        <li *ngIf="query.length > 2">
+          <a (click)="select(item)">{{item}}</a>
+        </li>
+      </ul>
+    </div>
+    <div style="color:red;" *ngIf="showEmpty">
+      Sorry No Transporters founds!!!
+    </div>
+  </div>
+
+  <ion-card *ngIf="hideTransporter">
+    <ion-item text-center style="color:#636363;">
+      <h5><b>{{treport.transporter.transporterName}}</b></h5>
+
+      <h6>
+        {{treport.transporter.OwnerName}}
+        <br>
+        <ion-icon name="call"></ion-icon>&nbsp;&nbsp;{{treport.transporter.mobileNo}}
+        <br>
+        {{treport.transporter.cityName}}, {{treport.transporter.regionName}}
+      </h6>
+    </ion-item>
+  </ion-card>
+
+  <ion-item style="color:red;">
+    <ion-label style="color:red;">Select Range</ion-label>
+    <ion-select (ionChange)="onChange(dateOption)" [(ngModel)]="dateOption">
+      <ion-option value="1">Today</ion-option>
+      <ion-option value="2">Yesterday</ion-option>
+      <ion-option value="3">Last 3 Days</ion-option>
+      <ion-option value="4" selected>Last 7 Days</ion-option>
+      <ion-option value="5">Last 15 Days</ion-option>
+      <ion-option value="6">This Month</ion-option>
+      <ion-option value="7">Last Month</ion-option>
+      <ion-option value="8">Custom Date range</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-row class="date-row fromto" text-center>
+
+    <ion-col col-6 style="padding:5px 0px;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;padding-left: 0px;">From:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{startDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+    <ion-col col-6 style="padding:5px 0px;;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">To:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{endDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+  </ion-row>
+
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select Start Date</ion-label>
+    <ion-input type="date" max={{currentDate}} [(ngModel)]="sDate"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select End Date</ion-label>
+    <ion-input type="date" min={{sDate}} max={{currentDate}} max={{currentDate}} [(ngModel)]="eDate" (ngModelChange)="dateChanged(item)"></ion-input>
+  </ion-item>
+
+  <ion-segment [(ngModel)]="categories">
+    <ion-segment-button value="Fuel">
+      Against Fuel
+    </ion-segment-button>
+    <ion-segment-button value="Cash">
+      Against Cash
+    </ion-segment-button>
+    <ion-segment-button value="Total">
+      Total
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="categories">
+
+    <ion-list *ngSwitchCase="'Fuel'">
+
+      <ion-row *ngIf="fuelView" align-items-start style="padding-top: 10px;">
+        <ion-col class="tab-bg-assertive">
+          Date
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right>
+          Amount(Rs)
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let fuel of FuelList;let index=index; let odd=odd; let even=even;" class="row" [ngClass]="{ contenttable: odd, contenttable2: even}">
+        <ion-col>
+          {{fuel.date |date:"dd-MM-yy"}}
+        </ion-col>
+        <ion-col text-right *ngIf="fuel.amount!==0">
+           {{fuel.amount |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col *ngIf="fuel.amount==0" text-right>
+          -
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="fuelView">
+        <ion-col class="tab-bg-assertive">
+          Total
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right *ngIf="paymenttreport.allFuelTot!==0">
+           {{paymenttreport.allFuelTot |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col class="tab-bg-assertive" *ngIf="paymenttreport.allFuelTot==0" text-right>
+          <b>-</b>
+        </ion-col>
+      </ion-row>
+
+      <div text-center *ngIf="fuelEmpty" style="padding-top:10px;">
+        "No Fuel Records are Present"
+      </div>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Cash'">
+
+      <ion-row *ngIf="cashView" align-items-start style="padding-top: 10px;">
+        <ion-col class="tab-bg-assertive">
+          Date
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right>
+          Amount(Rs)
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let fuel of CashList;let index=index; let odd=odd; let even=even;" class="row" [ngClass]="{ contenttable: odd, contenttable2: even}">
+        <ion-col>
+          {{fuel.date | date:"dd-MM-yy"}}
+        </ion-col>
+        <ion-col text-right *ngIf="fuel.amount!==0">
+           {{fuel.amount |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col *ngIf="fuel.amount==0" text-right>
+          -
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="cashView">
+        <ion-col class="tab-bg-assertive">
+          Total
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right *ngIf="paymenttreport.allCashTot!==0">
+           {{paymenttreport.allCashTot |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col class="tab-bg-assertive" *ngIf="paymenttreport.allCashTot==0" text-right>
+          <b>-</b>
+        </ion-col>
+      </ion-row>
+
+      <div text-center *ngIf="cashEmpty" style="padding-top:10px;">
+        "No Cash Records are Present"
+      </div>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Total'">
+
+      <ion-row *ngIf="totalView" align-items-start style="padding-top: 10px;">
+        <ion-col class="tab-bg-assertive">
+          Date
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right>
+          Amount(Rs)
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let fuel of Total;let index=index; let odd=odd; let even=even;" class="row" [ngClass]="{ contenttable: odd, contenttable2: even}">
+        <ion-col>
+          {{fuel.date | date:"dd-MM-yy"}}
+        </ion-col>
+        <ion-col text-right *ngIf="fuel.amount!==0">
+           {{fuel.amount |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col *ngIf="fuel.amount==0" text-right>
+          -
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="totalView">
+        <ion-col class="tab-bg-assertive">
+          Total
+        </ion-col>
+        <ion-col class="tab-bg-assertive" text-right *ngIf="paymenttreport.allTot!==0">
+           {{paymenttreport.allTot |currency : '&nbsp;': true:"1.0"}}
+        </ion-col>
+        <ion-col class="tab-bg-assertive" *ngIf="paymenttreport.allTot==0" text-right>
+          <b>-</b>
+        </ion-col>
+      </ion-row>
+
+      <div text-center *ngIf="totalEmpty" style="padding-top:10px;">
+        "No Records are Present"
+      </div>
+
+    </ion-list>
+
+  </div>
+</ion-content>

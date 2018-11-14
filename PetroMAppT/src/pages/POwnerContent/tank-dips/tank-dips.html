@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Tank Dips</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+
+  <ion-row align-items-start>
+    <ion-col class="tab-bg-assertive">
+      Tank
+    </ion-col>
+    <ion-col class="tab-bg-assertive">
+      Product
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      Dip
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      Qty
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngFor="let prod of tankList;let i = index; trackBy:trackByIndex;let odd=odd; let even=even;" class="row" [ngClass]="{ contenttable2: odd, contenttable: even}" align-items-start>
+    <ion-col>
+      {{prod.name}}
+    </ion-col>
+    <ion-col>
+      <!-- Short Name -->
+      {{prod.productName}}
+    </ion-col>
+    <ion-col *ngIf="prod.dip==undefined || prod.dip==null" text-right>
+      <ion-input class="text-space" type="number"  (change)='totalLiters($event.target.value,tankList[i])' placeholder="Enter Dip"></ion-input>
+    </ion-col>
+    <ion-col *ngIf="prod.dip!==null && prod.dip!==undefined" text-right>
+      {{prod.dip|currency:"&nbsp;" : true : '1.2-2'}}
+    </ion-col>
+    <ion-col *ngIf="prod.literValue!==null && prod.literValue!==undefined" text-right>
+      {{prod.literValue|currency:"&nbsp;" : true : '1.2-2'}}
+    </ion-col>
+    <ion-col *ngIf="prod.literValue==null || prod.literValue==undefined" text-right>
+      -
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="show">
+    <ion-col  col-12>
+      <button ion-button full color="primary" (click)="Save()">Save Dips</button>
+    </ion-col>
+  </ion-row>
+</ion-content>

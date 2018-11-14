@@ -1,0 +1,393 @@
+<!--
+  Generated template for the TransporterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title text-capitalize class="centerali">{{name}} [{{title}}]</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Pumpwise Payments -->
+  <div text-wrap (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
+    <div class="info-box bg-primary">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Pumpwise Payments (Last 7 Days)</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(1) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(1)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwisepayments3">
+              <ion-item class="pumpwisepayments3" style="color:red;">
+                <ion-label slack style="padding-left: 10px;color:red;font-size: inherit;">Select Pump</ion-label>
+                <ion-select [(ngModel)]="paymentPumpId" #reqPayment (ionChange)="selectPumpPayment(reqPayment.value)">
+                  <ion-option value=0 selected>All</ion-option>
+                  <ion-option  *ngFor="let pump of pumpList;let i = index" [value]="pump.pumpId">
+                   {{pump.pumpName}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row align-items-start>
+            <ion-col class="pumpwisepayments" style="margin-left:0px;">
+              Date
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Due
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Paid
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Pending
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let pay of paymentList;let index=index; let odd=odd; let even=even;" class="row" [ngClass]="{ pumpwisepayments2: odd, pumpwisepayments3: even}">
+            <ion-col style="margin-left:0px;">
+              {{pay.date |date:"dd-MM-yy"}}
+            </ion-col>
+            <ion-col *ngIf="pay.sumBillAmount!==0" text-right>
+              {{pay.sumBillAmount |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="pay.sumBillAmount==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="pay.paid!==0" text-right>
+              {{pay.paid |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="pay.paid==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="pay.pending!==0" text-right>
+              {{pay.pending |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="pay.pending==0" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwisepayments" style="margin-left:0px;">
+              <b>Total</b>
+            </ion-col>
+            <ion-col *ngIf="payment.sumDueBillAmount!==0" class="pumpwisepayments" text-right>
+              <b>{{payment.sumDueBillAmount |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col class="pumpwisepayments"  *ngIf="payment.sumDueBillAmount==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="payment.sumPaid!==0" class="pumpwisepayments" text-right>
+              <b>{{payment.sumPaid |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col *ngIf="payment.sumPaid==0" class="pumpwisepayments" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="payment.sumPending!==0" class="pumpwisepayments" text-right>
+              <b>{{payment.sumPending |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col *ngIf="payment.sumPending==0" class="pumpwisepayments" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row text-center>
+            <ion-col class="pumpwisepayments2" style="margin-left:0px;">
+              <span style="color:red;">*</span>All Amount in<b> Rupees</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Pumpwise Credit Limit -->
+  <div text-wrap (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
+    <div class="info-box bg-success">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Pumpwise Credit Limit</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(2) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(2)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col class=" pumpwiselimit3">
+              <ion-item class="pumpwiselimit3" style="color:red;">
+                <ion-label slack style="padding-left: 10px;color:red;font-size: inherit;">Select Pump</ion-label>
+                <ion-select [(ngModel)]="creditPumpId" #reqCredit (ionChange)="selectPumpCredit(reqCredit.value)">
+                  <ion-option value=0 selected>All</ion-option>
+                  <ion-option *ngFor="let pump of pumpList;let i = index" [value]="pump.pumpId">
+                    {{pump.pumpName}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwiselimit2" style="margin-left:0px;">
+              Allotted Limit (Rs)
+            </ion-col>
+            <ion-col *ngIf="creditLimit.limitAllocated!==0" class="pumpwiselimit2" text-right>
+              {{creditLimit.limitAllocated |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="creditLimit.limitAllocated==0" class="pumpwiselimit2" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwiselimit3" style="margin-left:0px;">
+              Used Limit (Rs)
+            </ion-col>
+            <ion-col *ngIf="creditLimit.usedLimit!==0" class="pumpwiselimit3" text-right>
+              {{creditLimit.usedLimit |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="creditLimit.usedLimit==0"  class="pumpwiselimit3" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwiselimit2" style="margin-left:0px;">
+              <b>Available Limit (Rs)</b>
+            </ion-col>
+            <ion-col *ngIf="creditLimit.balanceLimit!==0" class="pumpwiselimit2" text-right>
+              <b>{{creditLimit.balanceLimit |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col *ngIf="creditLimit.balanceLimit==0" class="pumpwiselimit2" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Pumpwise Consumed -->
+  <div text-wrap (click)="toggleGroup(4)" [ngClass]="{active: isGroupShown(4)}">
+    <div class="info-box bg-primary">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Pumpwise Consumed (Last 7 Days)</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(4) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(4)">
+      <ion-card>
+        <ion-card-content>
+          <ion-row align-items-start>
+            <ion-col class=" pumpwisepayments3">
+              <ion-item class="pumpwisepayments3" style="color:red;">
+                <ion-label slack style="padding-left: 10px;color:red;font-size: inherit;">Select Pump</ion-label>
+                <ion-select [(ngModel)]="pumpId" #reqPump (ionChange)="selectPump(reqPump.value)">
+                  <ion-option value=0 selected>All</ion-option>
+                  <ion-option *ngFor="let pump of pumpList;let i = index" [value]="pump.pumpId">
+                    {{pump.pumpName}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwisepayments">
+              Date
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Fuel Amt
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Cash
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right>
+              Total Amt
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let consume of consumedList;let index=index; let odd=odd; let even=even;" class="row"
+            [ngClass]="{ pumpwisepayments2: odd, pumpwisepayments3: even}">
+
+            <ion-col style="margin-left:0px;">
+              {{consume.date |date:"dd-MM-yy"}}
+            </ion-col>
+            <ion-col *ngIf="!consume.fuelAmount==0" text-right>
+              {{consume.fuelAmount |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="consume.fuelAmount==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="consume.cashAmount!==0" text-right>
+              {{consume.cashAmount |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="consume.cashAmount==0" text-right>
+              -
+            </ion-col>
+            <ion-col *ngIf="consume.totalAmount!==0" text-right>
+              {{consume.totalAmount |currency : '&nbsp;': true:"1.0"}}
+            </ion-col>
+            <ion-col *ngIf="consume.totalAmount==0" text-right>
+              -
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwisepayments" style="margin-left:0px;">
+              <b>Total</b>
+            </ion-col>
+            <ion-col class="pumpwisepayments" text-right *ngIf="consumed.sumFuelAmount!==0">
+              <b>{{consumed.sumFuelAmount |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col class="pumpwisepayments" *ngIf="consumed.sumFuelAmount==0" text-right>
+              <b>-</b>
+            </ion-col>
+
+            <ion-col class="pumpwisepayments" text-right *ngIf="consumed.sumCashAmount!==0">
+              <b>{{consumed.sumCashAmount |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col class="pumpwisepayments" *ngIf="consumed.sumCashAmount==0" text-right>
+              <b>-</b>
+            </ion-col>
+
+            <ion-col class="pumpwisepayments" text-right *ngIf="consumed.sumtotalAmount!==0">
+              <b>{{consumed.sumtotalAmount |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col class="pumpwisepayments" *ngIf="consumed.sumtotalAmount==0" text-right>
+              <b>-</b>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row text-center>
+            <ion-col class="pumpwisepayments2" style="margin-left:0px;">
+              <span style="color:red;">*</span>All Amount in<b> Rupees</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Pending Requests -->
+  <div text-wrap (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
+    <div class="info-box bg-success">
+      <div class="info-box-content">
+        <ion-row class="mar">
+          <span class="info-box-text">Pending Requests</span>
+        </ion-row>
+      </div>
+      <div class="info-box-content" style="text-align:right;">
+        <span class="info-box-number">
+          <ion-icon item-right [name]="isGroupShown(3) ? 'arrow-dropdown' : 'arrow-dropright'" style="padding-left: 10px;"></ion-icon>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="isGroupShown(3)">
+      <ion-card>
+        <ion-card-content>
+
+          <ion-row align-items-start>
+            <ion-col class=" pumpwiselimit3">
+              <ion-item class="pumpwiselimit3" style="color:red;">
+                <ion-label slack style="padding-left: 10px;color:red;font-size: inherit;">Select Pump</ion-label>
+                <ion-select [(ngModel)]="requestPumpId" #request (ionChange)="selectPumpRequest(request.value)">
+                  <ion-option value=0 selected>All</ion-option>
+                  <ion-option *ngFor="let pump of pumpList;let i = index" [value]="pump.pumpId">
+                    {{pump.pumpName}}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwiselimit2" style="margin-left:0px;">
+              <b>Pending Requests</b>
+            </ion-col>
+            <ion-col class="pumpwiselimit2" text-right>
+              <b>{{pending.requestCt}}</b>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row align-items-start>
+            <ion-col class="pumpwiselimit3" style="margin-left:0px;">
+              <b>Pending Cash (Rs)</b>
+            </ion-col>
+            <ion-col class="pumpwiselimit3" text-right *ngIf="pending.sumCash!==0">
+              <b>{{pending.sumCash |currency : '&nbsp;': true:"1.0"}}</b>
+            </ion-col>
+            <ion-col class="pumpwiselimit3" *ngIf="pending.sumCash==0" text-right>
+              <b>-</b>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col col-6 style="padding: 0;">
+      <button ion-button full (click)="addRequest()" class="footer-btn">
+        Raise Request
+      </button>
+    </ion-col>
+    <ion-col col-6 style="padding: 0;">
+      <button ion-button full color="positive" full (click)="RequestListPage()" class="footer-btn">
+        My Requests
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

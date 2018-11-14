@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row style="border: 0px;">
+      <ion-col col-1>
+        <ion-icon ios="ios-arrow-back" style="font-size: 1.7em;color: white;" md="md-arrow-back" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Payment Details</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-header text-center>
+      Pump Name
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-row>
+          <ion-col>
+            Bill No.
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col>
+            {{PaymentDetail.billNo}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            Bill Date
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col>
+              {{PaymentDetail.billDate |date:"dd-MM-yyyy"}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            Amount
+          </ion-col>
+          <ion-col col-1>
+            :
+          </ion-col>
+          <ion-col>
+              {{PaymentDetail.billAmount}}
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header text-center>
+      Payment
+    </ion-card-header>
+    <ion-card-content style="color:red;">
+      <ion-row>
+        <ion-col col-6>
+          Amount :
+        </ion-col>
+        <ion-col col-6>
+          <ion-input type="number" class="bottomBor-paymentEntry" [(ngModel)]="amount"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          Paymode :
+        </ion-col>
+        <ion-col col-6>
+          <ion-select [(ngModel)]="payModeId" #reqFuel1 (ionChange)="selectPaymodeList(reqFuel1.value)">
+            <ion-option *ngFor="let prod of paymodeList;let i = index" [value]="prod.id" [selected]="i===0">
+              {{prod.name}}
+            </ion-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row style="border: 0px;">
+    <ion-col col-12>
+      <button ion-button full color="success" (click)="updateBill()">
+        <ion-icon name="checkmark"></ion-icon>&nbsp; Pay Bill
+      </button>
+    </ion-col>
+    <!-- <ion-col col-6>
+      <button ion-button full color="primary" (click)="cancelRequest(fuelRequested.id)">
+        <ion-icon name="cloud-download"></ion-icon>&nbsp; Download Bill
+      </button>
+    </ion-col> -->
+  </ion-row>
+</ion-content>

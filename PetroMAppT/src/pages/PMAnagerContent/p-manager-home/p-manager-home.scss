@@ -1,0 +1,154 @@
+page-p-manager-home {
+    .accordion-list {
+        background: color($colors, light);
+        height: 100%;
+    }
+    .section {
+        background: #fff;
+        color: #000;
+        margin-bottom: 4px;
+    }
+    .section-active {
+        background: #ffc400;
+        color: #fff;
+    }
+    .child {
+        background: #e8e7e6;
+        color: #000;
+        margin-bottom: 4px;
+    }
+    .child-item {
+        background: #f3f2f1;
+        padding: 10px;
+    }
+    .label {
+        margin: 0px;
+    }
+    .list {
+        margin-bottom: 4px;
+    }
+    .item-input .label-md,
+    .item-select .label-md,
+    .item-datetime .label-md {
+        color: #000;
+        font-size: 16px;
+    }
+    .label {
+        margin: 6px 8px 6px 0;
+    }
+    .card {
+        margin: -10px 0px 10px 0px !important;
+        width: 100%;
+    }
+    .card-content {
+        padding: 0px 0px;
+    }
+    .grid {
+        padding: 0 0 0 0;
+    }
+    .even {
+        background-color: #bfdefe;
+        color: #202020;
+    }
+    .odd {
+        background-color: #a2d0ff;
+        color: #202020;
+    }
+    .Regular-sales-dash {
+        background-color: #1a7b31;
+        color: #ffffff;
+    }
+    .Regulardash2 {
+        background-color: #c9e8d1;
+        color: #202020;
+    }
+    .Regulardash3 {
+        background-color: #b4e0be;
+        color: #202020;
+    }
+    .loyalty-sales-dash {
+        background-color: #0c7e90;
+        color: #ffffff;
+    }
+    .loyaltydash2 {
+        background-color: #c5e7ed;
+        color: #202020;
+    }
+    .loyaltydash3 {
+        background-color: #a7dce4;
+        color: #202020;
+    }
+    .credit-sales-dash {
+        background-color: #c12130;
+        color: #ffffff;
+    }
+    .odd2 {
+        background-color: #f5d8db;
+        color: #202020;
+    }
+    .even3 {
+        background-color: #f2b5bb;
+        color: #202020;
+    }
+    .faltu {
+        padding: 0px 5px;
+        text-align: justify;
+        color: currentColor;
+    }
+    .head-table {
+        margin-left: 0px !important;
+    }
+    .content-table {
+        margin-left: 0px;
+    }
+    .card-md {
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        -o-border-radius: 0px;
+    }
+    .info-box {
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        -o-border-radius: 0px;
+    }
+    .overallsales {
+        background-color: #ffecb4;
+        color: #000000;
+    }
+    .overallsales2 {
+        background-color: #ffc853;
+        color: #000000;
+    }
+    .overallsales3 {
+        background-color: #eca202;
+        color: #ffffff;
+    }
+    .Paymodewise {
+        background-color: #4d4e4e;
+        color: #ffffff;
+    }
+    .Paymodewise2 {
+        background-color: #caced2;
+        color: #000000;
+    }
+    .Paymodewise3 {
+        background-color: #b5b5b5;
+        color: #000000;
+    }
+    .oilpurchase {
+        background-color: #bfdefe;
+        color: #202020;
+    }
+    .oilpurchase2 {
+        background-color: #a2d0ff;
+        color: #202020;
+    }
+    .oilpurchase3 {
+        background-color: #357abf;
+        color: #ffffff;
+    }
+}

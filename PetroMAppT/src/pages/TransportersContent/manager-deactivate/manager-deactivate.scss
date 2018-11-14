@@ -1,0 +1,17 @@
+page-manager-deactivate {
+  .item {
+    padding-left: 0px !important;
+  }
+  [col-6] {
+    padding: 1px !important;
+  }
+  .grid {
+    font-size: 14px !important; // padding-left: 1px!important;
+  }
+  .row {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: #b0afaf;
+    padding: 4px 0px;
+  }
+}

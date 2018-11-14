@@ -1,0 +1,105 @@
+<!--
+  Generated template for the PaymentDueTransporterReportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Transporter Due Payment</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+ 
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+
+  <div class="container" style="z-index: 10000;">
+    <ion-row>
+      <ion-col col-12>
+        <input type="text" style="width: 53%;height:100%;" placeholder="Transporter Name" class="validate filter-input input-reg"
+          [(ngModel)]=query (keyup)=filter()>
+      </ion-col>
+    </ion-row>
+    <div class="" *ngIf="transporterList.length > 0">
+      <ul *ngFor="let item of transporterNameList">
+        <li *ngIf="query.length > 2">
+          <a (click)="select(item)">{{item}}</a>
+        </li>
+      </ul>
+    </div>
+    <div style="color:red;" *ngIf="showEmpty">
+      Sorry No Transporters founds!!!
+    </div>
+  </div>
+
+  <!-- <ion-list *ngFor="let transporter of paymentTransporter">
+    <ion-item>
+      <ion-row>
+        <ion-col>
+          <h5>{{transporter.transporterName}}</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <h6>
+            <ion-icon name="call"></ion-icon>&nbsp;&nbsp;
+            {{transporter.mobileNo}}
+          </h6>
+        </ion-col>
+        <ion-col col-6>
+          <h6>Credit Limit - ₹{{transporter.creditLimit |currency : '&nbsp;'}}/-</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <h6 style="color:red;">Due Payment - ₹ {{transporter.duePayment |currency : '&nbsp;'}}/-</h6>
+        </ion-col>
+        <ion-col col-6>
+          <h6>Next Bill Date - <ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;{{transporter.nextBillDate
+            |date:"dd-MM-yyyy"}}</h6>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+
+  </ion-list> -->
+
+  <ion-list *ngFor="let transporter of paymentTransporter">
+    <ion-item>
+      <h5 text-capitalize>{{transporter.transporterName}}</h5>
+      <h6 style="padding-left: 5px;">Limit : ₹ {{transporter.creditLimit |currency : '&nbsp;' : true:"1.0"}}/-</h6>
+      <h6 style="padding-left: 5px;color: red;">Due Payment : ₹ {{transporter.duePayment |currency : '&nbsp;' : true:"1.0"}}/-</h6>
+      <h6 style="padding-left: 5px;">Next Bill Date : <ion-icon name="calendar"></ion-icon>&nbsp;&nbsp;{{transporter.nextBillDate
+        |date:"dd-MM-yyyy"}}</h6>
+      
+
+      <ion-note text-capitalize item-end text-right>
+        <a href="tel: {{transporter.mobileNo}}">
+          <b>
+            <ion-icon name="call"></ion-icon>&nbsp;{{transporter.mobileNo}}
+          </b>
+        </a>
+      </ion-note>
+
+    </ion-item>
+  </ion-list>
+
+
+
+
+</ion-content>

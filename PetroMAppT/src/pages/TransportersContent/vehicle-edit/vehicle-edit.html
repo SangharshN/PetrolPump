@@ -1,0 +1,158 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Update Vehicle</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+
+  <form novalidate [formGroup]="user">
+    <ion-list>
+      <ion-item>
+        <ion-label>Registration No.</ion-label>
+        <ion-input type="text" text-uppercase formControlName="regNo" class="form-control" [(ngModel)]="vehicle.regNo"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('regNo').hasError('minlength') || user.get('regNo').hasError('required') ) && user.get('regNo').touched">
+        <div class="error" *ngIf="user.get('regNo').hasError('required') && user.get('regNo').touched">
+          *Registeration number required.
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Reg. Year</ion-label>
+        <ion-input type="number" formControlName="regYear" class="form-control" [(ngModel)]="vehicle.regYear"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('regYear').hasError('minlength') || user.get('regYear').hasError('max') ||user.get('regYear').hasError('maxlength') || user.get('regYear').hasError('required') ) && user.get('regYear').touched">
+        <div class="error" *ngIf="user.get('regYear').hasError('required') && user.get('regYear').touched">
+          *Registeration Year is required.
+        </div>
+        <div class="error" *ngIf="user.get('regYear').hasError('maxlength')&& user.get('regYear').touched">
+          *Registration Year must be valid.
+        </div>
+        <div class="error" *ngIf="user.get('regYear').hasError('minlength') && user.get('regYear').touched">
+          *Registration Year must be valid.
+        </div>
+        <div class="error" *ngIf="user.get('regYear').hasError('max')&& user.get('regYear').touched">
+          *Registration Year must be valid.
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label slack>Select Vehicle Type</ion-label>
+        <ion-select formControlName="vehicleTypeId" class="form-control" [(ngModel)]="vehicle.vehicleTypeId">
+          <ion-option *ngFor="let crequest of VehicleTypeList;let i = index" [value]="crequest.id">
+            {{crequest.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('vehicleTypeId').hasError('minlength') || user.get('vehicleTypeId').hasError('required') ) && user.get('vehicleTypeId').touched">
+        <div class="error" *ngIf="user.get('vehicleTypeId').hasError('required') && user.get('vehicleTypeId').touched">
+          *Vehicle type is required.
+        </div>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label slack>Select Driver</ion-label>
+        <ion-select formControlName="tdriverId" class="form-control" [(ngModel)]="vehicle.tdriverId">
+          <ion-option *ngFor="let crequest of driverList;let i = index" [value]="crequest.id" [selected]="i===0">
+            {{crequest.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('tdriverId').hasError('minlength') || user.get('tdriverId').hasError('required') ) && user.get('tdriverId').touched">
+        <div class="error" *ngIf="user.get('tdriverId').hasError('required') && user.get('tdriverId').touched">
+          *Driver is required.
+        </div>
+      </ion-item> -->
+
+      <ion-item>
+        <ion-label slack>Select Fuel type</ion-label>
+        <ion-select formControlName="fuelType" class="form-control" [(ngModel)]="vehicle.prodGroupId" #reqFuel
+          (ionChange)="onChange(reqFuel.value)">
+          <ion-option *ngFor="let crequest of FuelTypeList;let i = index" [value]="crequest.id">
+            {{crequest.name}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('fuelType').hasError('minlength') || user.get('fuelType').hasError('required') ) && user.get('fuelType').touched">
+        <div class="error" *ngIf="user.get('fuelType').hasError('required') && user.get('fuelType').touched">
+          *Fuel type is required
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Blanket (Y/N)</ion-label>
+        <ion-checkbox formControlName="blanket" class="form-control" [(ngModel)]="vehicle.blanket" ng-checked="0"
+          (ionChange)="blanketUpdate(vehicle.blanket)"></ion-checkbox>
+      </ion-item>
+
+      <div *ngIf="vehicle.blanket==1">
+        <div class="form-group">
+          <ion-item>
+            <ion-label stacked>Cash</ion-label>
+            <ion-input type="text" formControlName="blanketCash" class="form-control" [(ngModel)]="vehicle.blanketCash"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines *ngIf="( user.get('blanketCash').hasError('minlength') || user.get('blanketCash').hasError('required') ) && user.get('blanketCash').touched">
+            <div class="error" *ngIf="user.get('blanketCash').hasError('required') && user.get('blanketCash').touched">
+              *Blanket Cash is required
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Fuel</ion-label>
+            <ion-input type="text" formControlName="blanketFuel" class="form-control" [(ngModel)]="vehicle.blanketFuel"></ion-input>
+          </ion-item>
+          <ion-item no-lines *ngIf="( user.get('blanketFuel').hasError('minlength') || user.get('blanketFuel').hasError('required') ) && user.get('blanketFuel').touched">
+            <div class="error" *ngIf="user.get('blanketFuel').hasError('required') && user.get('blanketFuel').touched">
+              *Blanket Fuel is required
+            </div>
+          </ion-item>
+        </div>
+      </div>
+      <ion-item>
+        <ion-label stacked>Fuel unit</ion-label>
+        <ion-input type="text" formControlName="unitName" class="form-control" [(ngModel)]="vehicle.unitName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-item no-lines *ngIf="( user.get('unitName').hasError('minlength') || user.get('unitName').hasError('required') ) && user.get('unitName').touched">
+          <div class="error" *ngIf="user.get('unitName').hasError('required') && user.get('unitName').touched && user.get('unitName').untouched">
+            *UnitName is required
+          </div>
+        </ion-item>
+        <ion-label stacked>Capacity</ion-label>
+        <ion-input type="number" formControlName="capacity" class="form-control" min="1" [(ngModel)]="vehicle.capacity"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="( user.get('capacity').hasError('min') || user.get('capacity').hasError('required') ) && user.get('capacity').touched">
+        <div class="error" *ngIf="user.get('capacity').hasError('required') && user.get('capacity').untouched">
+          *Capacity is required
+        </div>
+        <div class="error" *ngIf="user.get('capacity').hasError('min') && user.get('capacity').touched">
+          Enter valid capacity
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-row>
+        <ion-col col-12>
+          <button ion-button full color="primary" (click)="updateVehicle(vehicle)">
+            Update
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </form>
+</ion-content>

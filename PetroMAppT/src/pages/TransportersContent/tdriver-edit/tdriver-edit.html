@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+        <ion-col col-1>
+            <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+          </ion-col>
+      <ion-col col-11>
+        <ion-title class="centerali">Update Driver</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <form novalidate [formGroup]="user">
+    <ion-item>
+      <ion-label color="royal" inline>Name</ion-label>
+      <ion-input type="text" formControlName="name" class="form-control" [(ngModel)]="tdriver.name"></ion-input>
+    </ion-item>
+    <ion-item no-lines *ngIf="( user.get('name').hasError('minlength') || user.get('name').hasError('required') ) && user.get('name').touched">
+      <div class="error" *ngIf="user.get('name').hasError('required') && user.get('name').touched">
+        *Registeration number required.
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="royal" inline>Mobile No.</ion-label>
+      <ion-input type="number" formControlName="mobileNo" class="form-control" [(ngModel)]="tdriver.mobileNo"></ion-input>
+    </ion-item>
+    <ion-item no-lines *ngIf="( user.get('mobileNo').hasError('required') || user.get('mobileNo').hasError('minlength') || user.get('mobileNo').hasError('maxlength'))&& user.get('mobileNo').touched">
+      <div class="error" *ngIf="user.get('mobileNo').hasError('required') && user.get('mobileNo').touched">
+        mobile no is required
+      </div>
+      <div class="error" *ngIf="user.get('mobileNo').hasError('minlength') && user.get('mobileNo').touched">
+        Please enter valid mobile number
+      </div>
+      <div class="error" *ngIf="user.get('mobileNo').hasError('maxlength') && user.get('mobileNo').touched">
+        Please enter valid mobile number
+      </div>
+    </ion-item>
+
+  </form>
+  <button ion-button full (click)="EditDriver(tdriver.id)">Update</button>
+</ion-content>

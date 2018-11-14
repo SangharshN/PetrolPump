@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-navbar>
+      <ion-row>
+        <ion-col col-4>
+          <div class="user-avatar">
+            <img src="../assets/img/avatar.jpeg">
+          </div>
+        </ion-col>
+        <ion-col padding-top col-8>
+          <h5 ion-text class="no-margin bold text-white" style="color: #fff;">
+            {{username}}
+          </h5>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding class="other-data">
+        <ion-col no-padding class="column">
+          <button ion-button icon-left small full color="light" (click)="editProfile()" menuClose>
+            <ion-icon name="contact"></ion-icon>
+            Edit Profile
+          </button>
+        </ion-col>
+        <ion-col no-padding class="column">
+          <button ion-button icon-left small full color="light" (click)="logout()" menuClose>
+            <ion-icon name="log-out"></ion-icon>
+            Log Out
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-navbar>
+    <ul class="li-side">
+      <li>
+        <ion-icon ios="ios-home" md="md-home" class="menu-icon"></ion-icon>
+        <a (click)="home()" class="mar-l-10">Home</a>
+      </li>
+    
+        <li>
+          <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+          <a (click)="report()" class="mar-l-10">Reports</a>
+        </li>
+        <li>
+            <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+            <a (click)="changePassword()" class="mar-l-10">Change Password</a>
+          </li>
+           <li>
+            <!-- <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+            <a (click)="changePassword()" class="mar-l-10">Change Password</a> -->
+          </li>
+          <li>
+            <!-- <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+            <a (click)="changePassword()" class="mar-l-10">Change Password</a> -->
+          </li>
+          <li>
+            <!-- <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+            <a (click)="changePassword()" class="mar-l-10">Change Password</a> -->
+          </li>
+          <li>
+            <!-- <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+            <a (click)="changePassword()" class="mar-l-10">Change Password</a> -->
+          </li>
+    </ul>
+  </ion-header>
+  <ion-content padding="true" overflow-scroll="false" has-bouncing="false" class="noscroll-content">
+  </ion-content>

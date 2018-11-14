@@ -1,0 +1,26 @@
+page-pump-transporter-details {
+    .item {
+        padding-left: 0px !important;
+    }
+    [col-6] {
+        padding: 1px !important;
+    }
+    .grid {
+        font-size: 14px !important; // padding-left: 1px!important;
+    }
+    .row {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-color: #b0afaf;
+        padding: 4px 0px;
+    }
+    .card-header-md {
+        font-size: 1.6rem;
+        color: #222;
+        padding: 7px 16px 10px 6px;
+        border-bottom: 1px #0055b1 solid;
+    }
+    [col-12] {
+        padding: 0px 5px 5px 5px;
+    }
+}

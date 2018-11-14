@@ -1,0 +1,83 @@
+<!--
+  Generated template for the TranspopPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+      <ion-col col-4>
+        <div class="user-avatar">
+          <img src="assets/img/avatar.jpeg">
+        </div>
+      </ion-col>
+      <ion-col padding-top col-8>
+        <h5 ion-text text-capitalize class="no-margin bold text-white" style="color: #fff;">
+          {{name}}
+        </h5>
+      </ion-col>
+    </ion-row>
+    <ion-row no-padding class="other-data">
+      <ion-col no-padding class="column">
+        <button ion-button icon-left small full color="light" (click)="editProfile()" menuClose>
+          <ion-icon name="contact"></ion-icon>
+          Edit Profile
+        </button>
+      </ion-col>
+      <ion-col no-padding class="column">
+        <button ion-button icon-left small full color="light" (click)="logout()" menuClose>
+          <ion-icon name="log-out"></ion-icon>
+          Log Out
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+  <ul class="li-side">
+    <li>
+      <ion-icon ios="ios-home" md="md-home" class="menu-icon"></ion-icon>
+      <a (click)="home()" class="mar-l-10">Home</a>
+    </li>
+    <li>
+      <ion-icon ios="ios-paper-plane" md="md-paper-plane" class="menu-icon"></ion-icon>
+      <a (click)="request()" class="mar-l-10">My Requests <ion-badge item-end>{{reqCount}}</ion-badge></a>
+    </li>
+    <li *ngIf=hide>
+      <ion-icon ios="ios-people" md="md-people" class="menu-icon"></ion-icon>
+      <a (click)="manager()" class="mar-l-10">My Managers <ion-badge item-end>{{mgrCount}}</ion-badge></a>
+    </li>
+    <li>
+      <ion-icon ios="ios-car" md="md-car" class="menu-icon"></ion-icon>
+      <a (click)="vehicle()" class="mar-l-10">My Vehicles <ion-badge item-end>{{vehicleCount}}</ion-badge></a>
+    </li>
+    <li>
+      <ion-icon ios="ios-person" md="md-person" class="menu-icon"></ion-icon>
+      <a (click)="driver()" class="mar-l-10">My Drivers <ion-badge item-end>{{driverCount}}</ion-badge></a>
+    </li>
+    <!-- <li>
+        <ion-icon ios="ios-paper" md="md-paper" class="menu-icon"></ion-icon>
+        <a (click)="paybill()" class="mar-l-10">Pay Bill</a>
+      </li> -->
+    <li>
+      <ion-icon ios="ios-paper" md="md-paper" class="menu-icon"></ion-icon>
+      <a (click)="paymentEntry()" class="mar-l-10">Payment Entry</a>
+    </li>
+
+    <li>
+      <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+      <a (click)="report()" class="mar-l-10">My Reports</a>
+    </li>
+
+    <li>
+      <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+      <a (click)="PumpListPage()" class="mar-l-10">My Pumps <ion-badge item-end>{{pumpList.pumpCount}}</ion-badge></a>
+    </li>
+
+    <li>
+      <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+      <a (click)="changePassword()" class="mar-l-10">Change Password</a>
+    </li>
+  </ul>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false" class="noscroll-content">
+</ion-content>

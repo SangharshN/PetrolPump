@@ -1,0 +1,19 @@
+page-request-list {
+    .segment .segment-button {
+        padding: 0px 0px !important;
+        font-size: 1rem;
+    }
+    .item{
+        border-bottom: 1px solid #dedede;
+        padding-left: 0px;
+    }
+    .text-input{
+        max-width:100%;
+        width: 100%;
+    }
+    .segment-md .segment-button.activated, .segment-md .segment-button.segment-activated {
+        border-color: red;
+        margin: 0px 2px;
+        color: red;
+    }
+}

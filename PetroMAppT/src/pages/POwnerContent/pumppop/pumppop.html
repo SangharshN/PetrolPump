@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+      <ion-col col-4>
+        <div class="user-avatar">
+          <img src="../assets/img/avatar.jpeg">
+        </div>
+      </ion-col>
+      <ion-col padding-top col-8>
+        <h5 ion-text text-capitalize class="no-margin bold text-white" style="color: #fff;">
+          {{name}}
+        </h5>
+      </ion-col>
+    </ion-row>
+    <ion-row no-padding class="other-data">
+      <ion-col no-padding class="column">
+        <button ion-button icon-left small full color="light" (click)="editProfile()" menuClose>
+          <ion-icon name="contact"></ion-icon>
+          Edit Profile
+        </button>
+      </ion-col>
+      <ion-col no-padding class="column">
+        <button ion-button icon-left small full color="light" (click)="logout()" menuClose>
+          <ion-icon name="log-out"></ion-icon>
+          Log Out
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+  <ul class="li-side">
+    <li>
+      <ion-icon ios="ios-home" md="md-home" class="menu-icon"></ion-icon>
+      <a (click)="home()" class="mar-l-10">Home</a>
+    </li>
+    <li>
+      <ion-icon ios="ios-paper" md="md-paper" class="menu-icon"></ion-icon>
+      <a (click)="PumpEmployeePage()" class="mar-l-10">Employee <ion-badge item-end>{{empCount}}</ion-badge></a>
+    </li>
+
+    <li>
+      <ion-icon ios="ios-paper" md="md-paper" class="menu-icon"></ion-icon>
+      <a (click)="PumpTransportersListPage()" class="mar-l-10">Transporters <ion-badge item-end>{{transCount}}</ion-badge></a>
+    </li>
+
+    <li *ngIf=hide>
+      <div *ngIf=activeCShide>
+        <ion-icon ios="ios-paper-plane" md="md-paper-plane" class="menu-icon"></ion-icon>
+        <a (click)="cashRequest()" class="mar-l-10">Cash Dispense</a>
+      </div>
+    <li>
+      <ion-icon ios="ios-paper" md="md-paper" class="menu-icon"></ion-icon>
+      <a (click)="productRates()" class="mar-l-10">Product Rates</a>
+    </li>
+    <li *ngIf=activeCShide>
+      <ion-icon ios="ios-car" md="md-car" class="menu-icon"></ion-icon>
+      <a (click)="paymentReminder()" class="mar-l-10">Payment Reminder</a>
+    </li>
+    <li *ngIf=hide>
+      <ion-icon ios="ios-people" md="md-people" class="menu-icon"></ion-icon>
+      <a (click)="tankDips()" class="mar-l-10">Tank Dips</a>
+    </li>
+    <li>
+      <ion-icon ios="ios-person" md="md-person" class="menu-icon"></ion-icon>
+      <a (click)="ViewReport()" class="mar-l-10">SMS Reports</a>
+
+    </li>
+    <li>
+      <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+      <a (click)="report()" class="mar-l-10">Reports</a>
+    </li>
+    <li>
+      <ion-icon ios="ios-clipboard" md="md-clipboard" class="menu-icon"></ion-icon>
+      <a (click)="changePassword()" class="mar-l-10">Change Password</a>
+    </li>
+  </ul>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false" class="noscroll-content">
+</ion-content>

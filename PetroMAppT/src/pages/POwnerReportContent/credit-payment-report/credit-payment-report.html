@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row class="date-row">
+      <ion-col col-2>
+        <ion-label>From:</ion-label>
+      </ion-col>
+      <ion-col col-4>
+        <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="startDate"></ion-datetime>
+      </ion-col>
+      <ion-col col-2>
+        <ion-label>To:</ion-label>
+      </ion-col>
+      <ion-col col-4>
+        <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="endDate" (ngModelChange)="getCreditPaymentDate()"></ion-datetime>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+  <ion-navbar>
+    <ion-row>
+      <ion-col col-10>
+        <ion-title class="centerali">Credit Payment Report</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+
+  <ion-row align-items-start>
+    <ion-col class="head-table tab-bg-success">
+      Date
+    </ion-col>
+    <ion-col class="head-table tab-bg-success">
+      Customer
+    </ion-col>
+    <ion-col class="head-table tab-bg-success">
+      Payment of Fuel
+    </ion-col>
+    <ion-col class="head-table tab-bg-success">
+      Payment of Cash
+    </ion-col>
+  </ion-row>
+  <ion-row align-items-start *ngFor="let report of productRate">
+    <ion-col class="contenttable">
+      {{report.paymentDate}}
+    </ion-col>
+    <ion-col class="contenttable">
+      {{report.transporterName}}
+    </ion-col>
+    <ion-col class="contenttable">
+      {{report.paymentAgainstFuel}}
+    </ion-col>
+    <ion-col class="contenttable">
+      {{report.paymentAgainstCash}}
+    </ion-col>
+  </ion-row>
+
+</ion-content>

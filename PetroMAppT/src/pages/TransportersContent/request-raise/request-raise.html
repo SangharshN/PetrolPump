@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Raise Request</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <div class="container" style="z-index: 10000;">
+    <ion-row>
+      <ion-col col-12>
+        <input id="country" type="text" style="width: 53%;height:100%;" placeholder="Select State" class="validate filter-input input-reg"
+          [(ngModel)]=query (keyup)=filter()>
+      </ion-col>
+    </ion-row>
+    <div class="" *ngIf="stateName.length > 0">
+      <ul *ngFor="let item of stateNameList">
+        <li *ngIf="query.length > 2">
+          <a (click)="select(item)">{{item}}</a>
+        </li>
+      </ul>
+    </div>
+    <div style="color:red;" *ngIf="showEmpty">
+      Sorry No State founds!!!
+    </div>
+  </div>
+  <form novalidate [formGroup]="user">
+    <ion-item *ngIf="show">
+      <ion-label slack>Selected State</ion-label>
+      <ion-label slack text-right>{{state}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label slack>Select Pump</ion-label>
+      <ion-select [(ngModel)]="pumpId" formControlName="pump" class="form-control" #reqPump (ionChange)="selectPump(reqPump.value)">
+        <ion-option *ngFor="let pump of pumpList;let i = index" [value]="pump">
+          {{pump.pumpName}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item no-lines *ngIf="( user.get('pump').hasError('minlength') || user.get('pump').hasError('required') ) && user.get('pump').touched">
+
+      <div class="error" *ngIf="user.get('pump').hasError('required') && user.get('pump').touched">
+        *Pump is required
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label slack>Select Vehicle</ion-label>
+      <ion-select [(ngModel)]="vehicle" text-uppercase formControlName="vehicle" class="form-control" #reqVehicle
+        (ionChange)="selectVehicle(reqVehicle.value)">
+        <ion-option text-uppercase *ngFor="let vehicle of vehicles;let i = index" [value]="vehicle">
+          {{vehicle.regNo}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item no-lines *ngIf="( user.get('vehicle').hasError('minlength') || user.get('vehicle').hasError('required') ) && user.get('vehicle').touched">
+
+      <div class="error" *ngIf="user.get('vehicle').hasError('required') && user.get('vehicle').touched">
+        *Vehicle is required
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label slack>Select Driver</ion-label>
+      <ion-select [(ngModel)]="tdriver" formControlName="tdriver" class="form-control" #reqDriver (ionChange)="onChange2(reqDriver.value)">
+        <ion-option *ngFor="let tdriver of tdriverList;let i = index" [value]="tdriver">
+          {{tdriver.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item no-lines *ngIf="( user.get('tdriver').hasError('minlength') || user.get('tdriver').hasError('required') ) && user.get('tdriver').touched">
+
+      <div class="error" *ngIf="user.get('tdriver').hasError('required') && user.get('tdriver').touched">
+        *Driver is required
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label slack> Fuel Type</ion-label>
+      <ion-label slack text-right>{{FuelName}}</ion-label>
+    </ion-item>
+  </form>
+  <ion-item>
+    <ion-label slack>Select Fuel Request Type</ion-label>
+    <ion-select [(ngModel)]="crequest.requestType" (ionChange)="requestType(crequest.requestType)">
+      <ion-option value=1> Full Tank</ion-option>
+      <ion-option value=2 selected>By Amount.</ion-option>
+      <ion-option value=3>By Quantity</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="crequest.requestType==3">
+    <ion-label inline>Fuel Qty.</ion-label>
+    <ion-input type="number" [(ngModel)]="crequest.fuelRequested"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="crequest.requestType==2">
+    <ion-label inline>Fuel Amt (Rs)</ion-label>
+    <ion-input type="number" [(ngModel)]="crequest.fuelRequested"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="crequest.requestType==1">
+    <ion-label inline>Fuel Capacity</ion-label>
+    <ion-input type="text" readonly [(ngModel)]="capacity"></ion-input>
+  </ion-item>
+
+
+
+  <ion-item>
+    <ion-label inline>Cash Rs</ion-label>
+    <ion-input type="number" [(ngModel)]="crequest.cashRequested"></ion-input>
+  </ion-item>
+  <ion-list>
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button full (click)="addRequest()">
+          Submit
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+  <!-- <button ion-button [disabled]="user.invalid">Sign up</button> -->
+
+</ion-content>

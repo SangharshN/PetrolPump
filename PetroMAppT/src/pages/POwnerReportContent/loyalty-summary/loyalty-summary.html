@@ -1,0 +1,172 @@
+<!--
+  Generated template for the LoyaltySummaryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Loyalty Summary</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+<!-- 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+
+  <ion-item style="color:red;">
+    <ion-label style="color:red;">Select Driver</ion-label>
+    <ion-select [(ngModel)]="driverId" class="form-control" #reqFuel (ionChange)="DriverSelect(reqFuel.value)">
+      <ion-option value="0" selected>All</ion-option>
+      <ion-option *ngFor="let prod of DriverList;let i = index" [value]="prod.id">
+        &nbsp;&nbsp; {{prod.name}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item style="color:red;">
+    <ion-label style="color:red;">Select Range</ion-label>
+    <ion-select (ionChange)="onChange(dateOption)" [(ngModel)]="dateOption">
+      <ion-option value="1">Today</ion-option>
+      <ion-option value="2">Yesterday</ion-option>
+      <ion-option value="3">Last 3 Days</ion-option>
+      <ion-option value="4" selected>Last 7 Days</ion-option>
+      <ion-option value="5">Last 15 Days</ion-option>
+      <ion-option value="6">This Month</ion-option>
+      <ion-option value="7">Last Month</ion-option>
+      <ion-option value="8">Custom Date range</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select Start Date</ion-label>
+    <ion-input type="date" max={{currentDate}} [(ngModel)]="sDate"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="show">
+    <ion-label stacked>Select End Date</ion-label>
+    <ion-input type="date" min={{sDate}} max={{currentDate}} [(ngModel)]="eDate" (ngModelChange)="dateChanged(item)"></ion-input>
+  </ion-item>
+
+  <ion-row class="date-row fromto" text-center>
+
+    <ion-col col-6 style="padding:5px 0px;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;padding-left: 0px;">From:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{startDate | date:"dd-MM-yy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+    <ion-col col-6 style="padding:5px 0px;;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">To:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{endDate | date:"dd-MM-yy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+  </ion-row>
+
+  <ion-card *ngIf="hide">
+    <ion-item text-center style="color:#636363;">
+      <h5><b>{{loyalty.DriverData.name}}</b></h5>
+      <h6>
+        <ion-icon name="call"></ion-icon>&nbsp;&nbsp;<a href="tel:8208612295">{{loyalty.DriverData.driverMobileNo}}</a>
+        <br>
+        {{loyalty.DriverData.vehicleNo}}
+        <br>
+        Total Points : {{loyalty.DriverData.totalPoints}}
+        <br>
+        Redeemed Points : {{loyalty.DriverData.redeemedPoints}}
+      </h6>
+    </ion-item>
+  </ion-card>
+
+  <ion-row text-center>
+    <ion-col class="tab-bg-assertive">
+      Total Active Loyalty Drivers - {{loyalty.totalLDriverCount}}
+    </ion-col>
+  </ion-row>
+
+  <!-- depends on date range -->
+  <ion-row text-center style="padding-bottom:5px;">
+    <ion-col class="tab-bg-assertive">
+      No. of New Loyalty Drivers Registers - {{loyalty.dateRangeDriverCt}}
+    </ion-col>
+  </ion-row>
+  <ion-row align-items-start>
+    <ion-col class="tab-bg-assertive">
+      <b>Date</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      <b>Visited</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      <b>Earn</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right>
+      <b>Redeemed</b>
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start *ngFor="let fuel of loyaltyDetail;let index=index; let odd=odd; let even=even;" class="row"
+    [ngClass]="{ contenttable: odd, contenttable2: even}">
+    <ion-col>
+      {{fuel.earnedDate |date:"dd-MM-yy"}}
+    </ion-col>
+    <ion-col text-right *ngIf="fuel.driversCount!==0">
+      {{fuel.driversCount}}
+    </ion-col>
+    <ion-col *ngIf="fuel.driversCount==0" text-right>
+      -
+    </ion-col>
+    <ion-col text-right *ngIf="fuel.earnedPoints!==0">
+      {{fuel.earnedPoints}}
+    </ion-col>
+    <ion-col *ngIf="fuel.earnedPoints==0" text-right>
+      -
+    </ion-col>
+    <ion-col text-right *ngIf="fuel.redeemedPoints!==0">
+      {{fuel.redeemedPoints}}
+    </ion-col>
+    <ion-col *ngIf="fuel.redeemedPoints==0" text-right>
+      -
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="tab-bg-assertive">
+      <b>Total</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right *ngIf="loyalty.totalVisitedCount!==0">
+      <b>{{loyalty.totalVisitedCount}}</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" *ngIf="loyalty.totalVisitedCount==0" text-right>
+      <b>-</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right *ngIf="loyalty.totalEarnPoints!==0">
+      <b>{{loyalty.totalEarnPoints}}</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" *ngIf="loyalty.totalEarnPoints==0" text-right>
+      <b>-</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" text-right *ngIf="loyalty.totalRedeemedPoints!==0">
+      <b>{{loyalty.totalRedeemedPoints}}</b>
+    </ion-col>
+    <ion-col class="tab-bg-assertive" *ngIf="loyalty.totalRedeemedPoints==0" text-right>
+      <b>-</b>
+    </ion-col>
+  </ion-row>
+</ion-content>

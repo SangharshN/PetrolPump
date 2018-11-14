@@ -1,0 +1,41 @@
+page-dsm-home {
+    .button-full {
+        margin: 10px 0px !important;
+        padding: 25px 0px !important;
+    }
+    .padi {
+        padding: 10px 5px;
+    }
+    .cardred {
+        background-color: #17a2b8; 
+        // opacity: 0.5;
+        // filter: alpha(opacity=50);
+        color: #ffffff;
+    }
+    .cardgreen{
+        background-color: #f2b632; 
+        //  opacity: 0.5;
+        // filter: alpha(opacity=50);
+        color: #ffffff;
+    }
+    .col12 {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 100%;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        padding: 5px;
+    }
+    
+    .col6 {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 50%;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        width: 50%;
+        max-width: 50%;
+        padding: 5px;
+    }
+   
+}

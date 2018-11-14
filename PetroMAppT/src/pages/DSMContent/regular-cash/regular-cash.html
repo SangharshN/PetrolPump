@@ -1,0 +1,127 @@
+<!--
+  Generated template for the RegularCashPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar hideBackButton>
+      <ion-row>
+          <ion-col col-1>
+              <ion-icon name="md-arrow-round-back" style="font-size: 1.7em;color: white;" (click)="home()"></ion-icon>
+            </ion-col>
+        <ion-col col-10>
+          <ion-title class="centerali">Regular Sales</ion-title>
+        </ion-col>
+        <ion-col col-1>
+          <button ion-button float-right menuToggle icon-only style="display: block !important;"  >
+            <ion-icon name='menu'></ion-icon>
+          </button>
+        </ion-col>
+        </ion-row>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+
+  <ion-card>
+    <ion-card-header text-center class="header-trans">
+      Total Crediential Details
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-row>
+        <ion-col col-6>
+          Total Amount:
+        </ion-col>
+        <ion-col col-6>
+          {{total|currency:"₹ " : true : '1.2-2'}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="activeCS==1">
+        <ion-col col-6>
+          Total Credit:
+        </ion-col>
+        <ion-col col-6>
+          {{credit |currency:"₹ " : true : '1.2-2'}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="activeLS==1">
+        <ion-col col-6>
+          Total Loyalty:
+        </ion-col>
+        <ion-col col-6>
+          {{loyality|currency:"₹ " : true : '1.2-2'}}
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="loyaltyHide">
+
+    <ion-card-header text-center class="header-trans">
+      Loyalty Sale Details
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-row *ngFor="let sample of loyalitySale; let i = index; trackBy: trackByIndex">
+        <ion-col col-6>
+          {{sample.name}}:
+        </ion-col>
+        <ion-col col-6>
+          {{sample.totalAmount|currency:"₹ " : true : '1.2-2'}}
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row style="padding-left: 5px;color: red;">
+    <ion-col col-6>
+      <ion-label>Balance Amount:</ion-label>
+    </ion-col>
+    <ion-col col-6>
+      <ion-label> {{balanceAmount|currency:"₹ " : true : '1.2-2'}}</ion-label>
+    </ion-col>
+  </ion-row>
+
+  <ion-card>
+
+    <ion-card-header text-center class="header-trans">
+      Regular Sale Entry
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-row *ngFor="let paymode of payModeList; let i = index; trackBy: trackByIndex">
+        <ion-col col-6>
+          {{paymode.name}}:
+        </ion-col>
+        <ion-col col-6>
+          <ion-input type="number" [(ngModel)]="payMentList[i]" (change)='onChangeAmount($event.target.value,paymode.id)'
+            (input)="onInputTime($event.target.value)" [formControl]="textInput"></ion-input>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+  </ion-card>
+<ion-row *ngIf=showPending>
+  <ion-col col-6>
+    Previous Pending Amount:
+  </ion-col>
+  <ion-col col-6>
+    {{pendingAmount}}
+    </ion-col>
+</ion-row>
+  <ion-col col-12>
+    <ion-row>
+      <button ion-button full color="primary" (click)="submit()">
+        Submit
+      </button>
+    </ion-row>
+  </ion-col>
+</ion-content>

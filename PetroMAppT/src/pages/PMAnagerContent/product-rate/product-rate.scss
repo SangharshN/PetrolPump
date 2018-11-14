@@ -1,0 +1,15 @@
+page-product-rate {
+    .card-header {
+        font-size: 1.6rem;
+        color: #222;
+        padding: 5px 16px 8px 10px;
+        border-bottom: 1px #024a98 solid;
+    }
+    ion-input,
+    ion-textarea {
+        border-bottom: 1px solid;
+    }
+    .list {
+        margin: -1px 0 0px;
+    }
+}

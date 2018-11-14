@@ -1,0 +1,163 @@
+<!--  
+  Generated template for the RequestListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-row>
+      <ion-col col-1>
+        <ion-icon ios="ios-home" style="font-size: 1.7em;color: white;" md="md-home" (click)="home()"></ion-icon>
+      </ion-col>
+      <ion-col col-10>
+        <ion-title class="centerali">Request List</ion-title>
+      </ion-col>
+      <ion-col col-1>
+        <button ion-button float-right menuToggle icon-only style="display: block !important;" (click)="menuClick()">
+          <ion-icon name='menu'></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+  <ion-item style="color:red;margin: 0px 5px;">
+    <ion-label style="color:red;">Select Range</ion-label>
+    <ion-select (ionChange)="onChange(dateOption)" class="form-control" [(ngModel)]="dateOption">
+      <ion-option value="1">Today</ion-option>
+      <ion-option value="2">Yesterday</ion-option>
+      <ion-option value="3">Last 3 Days</ion-option>
+      <ion-option value="4" selected>Last 7 Days</ion-option>
+      <ion-option value="5">Last 15 Days</ion-option>
+      <ion-option value="6">This Month</ion-option>
+      <ion-option value="7">Last Month</ion-option>
+      <ion-option value="8">Custom Date range</ion-option>
+    </ion-select>
+  </ion-item>
+
+ 
+  <ion-row class="date-row fromto" style="margin: 0px 5px;" text-center>
+    <ion-col col-6 style="padding:5px;">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">From:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{startDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+
+    <ion-col col-6 style="padding:5px">
+      <ion-row>
+        <ion-label col-4 style="margin:0px;">To:</ion-label>
+        <ion-label col-8 style="margin:0px;">{{endDate | date:"dd-MM-yyyy"}}</ion-label>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start>
+    <ion-col class="head-table Paymodewise2">
+      <ion-item class="Paymodewise2" style="color:red;">
+        <ion-label>Select Pump</ion-label>
+        <ion-select [(ngModel)]="pump" #reqPump (ionChange)="selectPump(reqPump.value)">
+          <ion-option value=0 selected>All</ion-option>
+          <ion-option *ngFor="let pump of pumpList;let i = index" [value]="pump">
+            {{pump.pumpName}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <!-- </ion-toolbar> -->
+  <ion-segment [(ngModel)]="categories">
+    <ion-segment-button value="Pending">
+      Pending <ion-badge item-end>{{pendingCount}}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button value="inProgress">
+      In Progress <ion-badge item-end>{{inProgressCount}}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button value="Completed">
+      Completed <ion-badge item-end>{{completedCount}}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button value="Canceled">
+      Cancelled <ion-badge item-end>{{canceledCount}}</ion-badge>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content padding="true" overflow-scroll="false" has-bouncing="false">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div [ngSwitch]="categories">
+
+    <ion-list *ngSwitchCase="'Pending'">
+      <ion-item *ngFor="let crequest of pendingList" (click)="cancelRequest(crequest.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/request.png">
+        </ion-avatar>
+        <h5 text-uppercase>{{crequest.regNo}}</h5>
+        <h6 text-capitalize>{{crequest.pumpName}}</h6>
+        <ion-note item-end>{{crequest.created_at | date:"dd-MM-yy"}}</ion-note>
+      </ion-item>
+      <div *ngIf=pending>
+        <ion-label style="text-align: center">No Pending Request Records Found.</ion-label>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'inProgress'">
+      <ion-item *ngFor="let crequest of inProgressList" (click)="cancelRequest(crequest.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/request.png">
+        </ion-avatar>
+        <h5 text-uppercase>{{crequest.regNo}}</h5>
+        <h6 text-capitalize>{{crequest.pumpName}}</h6>
+        <ion-note *ngIf="crequest.fuelRequested!==0" item-end>{{crequest.inprogress_at | date:'dd-MM-yy'}}</ion-note>
+        <ion-note *ngIf="crequest.fuelRequested==0" item-end>{{crequest.created_at | date:'dd-MM-yy'}}</ion-note>
+      </ion-item>
+      <div *ngIf=progress>
+        <ion-label style="text-align: center">No Progress Request Records Found.</ion-label>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Completed'">
+      <ion-item *ngFor="let crequest of completedList" (click)="cancelRequest(crequest.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/request.png">
+        </ion-avatar>
+        <h5 text-uppercase>{{crequest.regNo}}</h5>
+        <h6 text-capitalize>{{crequest.pumpName}}</h6>
+        <ion-note *ngIf="crequest.cashRequested!==0" item-end>{{crequest.completed_at | date:'dd-MM-yy'}}</ion-note>
+        <ion-note *ngIf="crequest.cashRequested==0" item-end>{{crequest.inprogress_at | date:'dd-MM-yy'}}</ion-note>
+      </ion-item>
+      <div *ngIf=completed>
+        <ion-label style="text-align: center">No Completed Request Records Found</ion-label>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'Canceled'">
+      <ion-item *ngFor="let crequest of canceledList" (click)="cancelRequest(crequest.id)">
+        <ion-avatar item-start>
+          <img src="assets/imgs/request.png">
+        </ion-avatar>
+        <h5 text-uppercase>{{crequest.regNo}}</h5>
+        <h6 text-capitalize>{{crequest.pumpName}}</h6>
+        <ion-note item-end>{{crequest.updated_at | date:'dd-MM-yy'}}</ion-note>
+      </ion-item>
+      <div *ngIf=cancelled>
+        <ion-label style="text-align: center"> No Canceled Request Records Found</ion-label>
+      </div>
+    </ion-list>
+
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col col-12 style="padding: 0;">
+      <button ion-button full (click)="addRequest()" style="margin-top: 0;margin-bottom: 0;height: 4.5rem;">
+        Raise Request
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

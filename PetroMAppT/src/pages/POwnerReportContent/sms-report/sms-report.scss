@@ -1,0 +1,47 @@
+page-sms-report {
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .myCard {
+        position: relative;
+        width: 100%;
+    }
+    .myOverlay {
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        z-index: 50;
+        top: 20%;
+        font: 14px;
+        bottom: 0px;
+        text-align: center;
+        background: transparent;
+        color: #000;
+    }
+    .font24 {
+        font-size: 24px;
+    }
+    .font16 {
+        font-size: 20px;
+        padding-right: 5px;
+    }
+    .label {
+        margin: 4px 0px 4px 0;
+    }
+    table {
+        
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 7px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f7f5f5;
+    }
+}

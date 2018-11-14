@@ -1,0 +1,28 @@
+page-request-raise {
+    [col-12] {
+        padding: 0px !important;
+    }
+    .item {
+        padding-left: 0px !important;
+    }
+    .button-full {
+        margin-top: 10px
+    }
+    ul,
+    menu,
+    dir {
+        list-style-type: none;
+        padding-left: 0px;
+    }
+    .text-input {
+        text-align: right;
+    }
+    
+    .input-reg {
+        width: 45%;
+    }
+    .input-wrapper {
+        position: static;
+        border-bottom: 1px solid #07388e; // font-size: 12px;
+    }
+}
